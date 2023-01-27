@@ -10,11 +10,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item extends BaseEntity {
+public abstract class Item extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "ITEM_ID")
     private Long id;
 
