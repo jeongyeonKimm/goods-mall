@@ -1,18 +1,31 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.*;
+import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter @Setter
-public class Member {
+@Getter
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue
-    @Column(name="member_id")
+    @Column(name = "MEMBER_ID")
     private Long id;
 
+    private String email;
+    private String password;
     private String name;
-    private int age;
+    private String phoneNumber;
+
+    @Embedded
+    private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
 }
