@@ -35,4 +35,12 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    public Member(String email, String password, String name, String phoneNumber, Address address) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.status = MemberStatus.ACTIVE;
+    }
 }
