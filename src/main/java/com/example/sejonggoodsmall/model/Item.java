@@ -61,6 +61,6 @@ public class Item extends BaseEntity {
         this.title = title;
         this.price = price;
         this.description = description;
-        this.status = status;
+        this.status = ItemStatus.ACTIVE;
     }
 }
