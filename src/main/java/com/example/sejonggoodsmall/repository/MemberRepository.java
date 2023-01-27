@@ -2,33 +2,17 @@ package com.example.sejonggoodsmall.repository;
 
 import com.example.sejonggoodsmall.model.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    private final EntityManager em;
 
-    public void save(Member member) {
-        em.persist(member);
-    }
-
-    public Member findOne(Long memberId) {
-        return em.find(Member.class, memberId);
-    }
-
-    public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
-                .getResultList();
-    }
-
-    public List<Member> findByEmail(String email) {
-        return em.createQuery("select m from Member m where m.email = :email", Member.class)
-                .setParameter("email", email)
-                .getResultList();
-    }
+   Member findByEmail(String email);
+   Boolean existsByEmail(String email);
+   Member findByEmailAndPassword(String email, String password);
 }
