@@ -14,7 +14,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "dtype")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Item extends BaseEntity {
+public class Item extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -56,4 +56,11 @@ public abstract class Item extends BaseEntity {
     @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();
 
+    public Item(String seller, String title, int price, String description, ItemStatus status) {
+        this.seller = seller;
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.status = status;
+    }
 }

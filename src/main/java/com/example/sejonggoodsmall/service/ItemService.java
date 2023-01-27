@@ -2,6 +2,7 @@ package com.example.sejonggoodsmall.service;
 
 import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.repository.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,13 +10,14 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ItemService {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
-    public void saveItem(Item item) {
-        itemRepository.save(item);
+    public Long saveItem(Item item) {
+        return itemRepository.save(item);
     }
 
     public List<Item> findItems() {
