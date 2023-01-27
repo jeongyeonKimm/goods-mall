@@ -23,7 +23,7 @@ public class Member extends BaseEntity {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private MemberStatus status;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
