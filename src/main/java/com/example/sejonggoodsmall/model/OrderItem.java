@@ -30,4 +30,9 @@ public class OrderItem {
 
     @Column(nullable = false)
     private int count;
+
+    // == 연관관계 메서드 == //
+    public void addOrder(Order order) {
+        this.order = order;
+    }
 }

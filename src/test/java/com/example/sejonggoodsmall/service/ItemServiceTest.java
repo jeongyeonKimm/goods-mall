@@ -34,5 +34,5 @@ public class ItemServiceTest {
         // Then
         assertEquals(item, itemRepository.findOne(saveId));
     }
-    
+
 }
