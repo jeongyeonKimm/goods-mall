@@ -3,9 +3,7 @@ package com.example.sejonggoodsmall.service;
 import com.example.sejonggoodsmall.model.Address;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.repository.MemberRepository;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +24,7 @@ public class MemberServiceTest {
     public void joinMember() {
 
         // Given
-        Member member = new Member("test@test.com", "1234", "user1", "010-0000-0000", new Address("Seoul", "605", "123-123"));
+        Member member = new Member("test@test.com", "1234", "user1", "1999-10-06", new Address("Seoul", "605", "123-123"));
 
         // When
         Long memberId = memberService.join(member);
@@ -39,8 +37,8 @@ public class MemberServiceTest {
     public void duplicatedMember() throws Exception {
 
         // Given
-        Member member1 = new Member("test@test.com", "1234", "user1", "010-0000-0000", new Address("Seoul", "605", "123-123"));
-        Member member2 = new Member("test@test.com", "1234", "user2", "010-0000-0000", new Address("Seoul", "605", "123-123"));
+        Member member1 = new Member("test@test.com", "1234", "user1", "1999-10-06", new Address("Seoul", "605", "123-123"));
+        Member member2 = new Member("test@test.com", "1234", "user2", "1999-10-06", new Address("Seoul", "605", "123-123"));
 
         // When
         memberService.join(member1);
