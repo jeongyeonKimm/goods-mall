@@ -25,5 +25,5 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
-    
+
 }

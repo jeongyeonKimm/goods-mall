@@ -14,9 +14,16 @@ public class Member extends BaseEntity {
     @Column(name = "MEMBER_ID")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String phoneNumber;
 
     @Embedded
