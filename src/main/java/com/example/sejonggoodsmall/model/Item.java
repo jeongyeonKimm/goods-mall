@@ -10,11 +10,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "ITEM_ID")
     private Long id;
 
@@ -53,4 +56,11 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();
 
+    public Item(String seller, String title, int price, String description, ItemStatus status) {
+        this.seller = seller;
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.status = ItemStatus.ACTIVE;
+    }
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://sejonggoodsmall.ctgs2a9du4h5.ap-northeast-2.rds.amazonaws.com/sejonggoodsmall
+    url: jdbc:mysql://sejonggoodsmall.ctgs2a9du4h5.ap-northeast-2.rds.amazonaws.com:3306/sejonggoodsmall
     username: admin
     password: 9132wjddus
     driver-class-name: com.mysql.cj.jdbc.Driver

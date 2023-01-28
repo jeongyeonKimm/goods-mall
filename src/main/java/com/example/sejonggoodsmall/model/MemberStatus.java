@@ -1,5 +1,5 @@
 package com.example.sejonggoodsmall.model;
 
-public enum UserStatus {
+public enum MemberStatus {
     ACTIVE, DELETED
 }
