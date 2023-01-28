@@ -73,4 +73,28 @@ public class AuthController {
                     .body(responseDTO);
         }
     }
+
+    @PostMapping ("/find/email")
+    public ResponseEntity<?> findEmail(@RequestBody MemberDTO memberDTO) {
+        Member member = memberService.findEmail(memberDTO.getUsername(), memberDTO.getBirth());
+
+        if (member != null) {
+            final MemberDTO responseMemberDTO = MemberDTO.builder()
+                    .email(member.getEmail())
+                    .id(member.getId())
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseMemberDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("이메일 찾기 실패")
+                    .build();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+    }
 }
