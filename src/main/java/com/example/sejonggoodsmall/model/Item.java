@@ -1,19 +1,17 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Builder
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dtype")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity {
 
     @Id
@@ -63,4 +61,6 @@ public class Item extends BaseEntity {
         this.description = description;
         this.status = ItemStatus.ACTIVE;
     }
+
+    // == 연관관계 메서드 == //
 }
