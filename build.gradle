@@ -39,11 +39,6 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
-	// JUnit4
-	testImplementation("org.junit.vintage:junit-vintage-engine") {
-		exclude group: "org.hamcrest", module: "hamcrest-core"
-	}
-
 	// querydsl
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
