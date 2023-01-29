@@ -17,6 +17,11 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    @Transactional
+    public Item register(Item item) {
+        return itemRepository.save(item);
+    }
+
     public List<Item> findAllItems() {
         return itemRepository.findAll();
     }

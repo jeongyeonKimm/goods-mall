@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -31,7 +30,7 @@ public class Member extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private Date birth;
+    private String birth;
 
     @Embedded
     private Address address;
@@ -41,14 +40,5 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
-
-    public Member(String email, String password, String name, Date birth, Address address) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.birth = birth;
-        this.address = address;
-        this.status = MemberStatus.ACTIVE;
-    }
 
 }

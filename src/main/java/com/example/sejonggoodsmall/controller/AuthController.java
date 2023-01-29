@@ -28,7 +28,7 @@ public class AuthController {
                     .birth(memberDTO.getBirth())
                     .status(MemberStatus.ACTIVE)
                     .build();
-            
+
             Member registeredMember = memberService.join(member);
 
             MemberDTO responseMemberDTO = MemberDTO.builder()

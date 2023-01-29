@@ -1,6 +1,7 @@
 package com.example.sejonggoodsmall.dto;
 
 import com.example.sejonggoodsmall.model.Item;
+import com.example.sejonggoodsmall.model.ItemStatus;
 import com.example.sejonggoodsmall.model.UploadFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,15 +24,15 @@ public class ItemDTO {
     @NotBlank(message = "가격을 입력해주세요.")
     private int price;
 
-    @NotBlank(message = "대표사진을 입력해주세요.")
-    private UploadFile thumbnail;
+    //@NotBlank(message = "대표사진을 입력해주세요.")
+    //private UploadFile thumbnail;
 
     private String description;
 
     public ItemDTO(Item item) {
         this.title = item.getTitle();
         this.price = item.getPrice();
-        this.thumbnail = item.getThumbnail();
+        //this.thumbnail = item.getThumbnail();
         this.description = item.getDescription();
     }
 
@@ -40,8 +41,9 @@ public class ItemDTO {
                 .id(itemDTO.getId())
                 .title(itemDTO.getTitle())
                 .price(itemDTO.getPrice())
-                .thumbnail(itemDTO.getThumbnail())
+                //.thumbnail(itemDTO.getThumbnail())
                 .description(itemDTO.getDescription())
+                .status(ItemStatus.ACTIVE)
                 .build();
     }
 }

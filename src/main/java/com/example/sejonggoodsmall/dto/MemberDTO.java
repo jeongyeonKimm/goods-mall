@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 @Data
 @Builder
@@ -28,6 +27,6 @@ public class MemberDTO {
     private String username;
 
     @NotBlank(message = "생년월일을 입력해주세요.")
-    private Date birth;
+    private String birth;
 
 }
