@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -33,5 +33,9 @@ public class MemberService {
 
     public Member getByCredentials(String email, String password) {
         return memberRepository.findByEmailAndPassword(email, password);
+    }
+
+    public Member findEmail(String name, String birth) {
+        return memberRepository.findByNameAndBirth(name, birth);
     }
 }

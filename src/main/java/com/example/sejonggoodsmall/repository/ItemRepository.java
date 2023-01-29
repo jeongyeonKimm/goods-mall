@@ -1,33 +1,16 @@
 package com.example.sejonggoodsmall.repository;
 
 import com.example.sejonggoodsmall.model.Item;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
+
 @Repository
-@RequiredArgsConstructor
-public class ItemRepository {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    private final EntityManager em;
-
-    public Long save(Item item) {
-        if (item.getId() == null) {
-            em.persist(item);
-        } else {
-            em.merge(item);
-        }
-        return item.getId();
-    }
-
-    public Item findOne(Long id) {
-        return em.find(Item.class, id);
-    }
-
-    public List<Item> findAll() {
-        return em.createQuery("select i from Item i", Item.class)
-                .getResultList();
-    }
+    @Query("select i from Item i where i.status = 'ACTIVE'")
+    List<Item> findAllItems();
 }

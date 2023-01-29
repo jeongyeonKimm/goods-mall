@@ -1,19 +1,17 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@Builder
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dtype")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity {
 
     @Id
@@ -21,7 +19,7 @@ public class Item extends BaseEntity {
     @Column(name = "ITEM_ID")
     private Long id;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String seller;
 
     @Column(nullable = false, length = 30)
@@ -38,11 +36,9 @@ public class Item extends BaseEntity {
 
     private int viewCount;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
@@ -56,11 +52,4 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();
 
-    public Item(String seller, String title, int price, String description, ItemStatus status) {
-        this.seller = seller;
-        this.title = title;
-        this.price = price;
-        this.description = description;
-        this.status = ItemStatus.ACTIVE;
-    }
 }
