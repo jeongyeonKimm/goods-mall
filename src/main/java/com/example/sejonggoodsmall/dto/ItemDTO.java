@@ -1,8 +1,6 @@
 package com.example.sejonggoodsmall.dto;
 
-import com.example.sejonggoodsmall.model.Item;
-import com.example.sejonggoodsmall.model.ItemStatus;
-import com.example.sejonggoodsmall.model.UploadFile;
+import com.example.sejonggoodsmall.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +26,7 @@ public class ItemDTO {
     //private UploadFile thumbnail;
 
     private String description;
+
 
     public ItemDTO(Item item) {
         this.title = item.getTitle();

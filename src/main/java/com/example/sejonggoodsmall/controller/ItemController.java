@@ -21,6 +21,9 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    /**
+     * 상품 등록
+     */
     @PostMapping("/register")
     public ResponseEntity<?> registerItem(@RequestBody ItemDTO itemDTO) {
         try {
@@ -52,6 +55,20 @@ public class ItemController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllItems() {
         List<ItemDTO> items = itemService.findAllItems().stream()
+                .map(ItemDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity
+                .ok()
+                .body(items);
+    }
+
+    /**
+     * 카테고리별 상품 조회
+     */
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<?> getItemsByCategory(@PathVariable("categoryId") Long categoryId) {
+        List<ItemDTO> items = itemService.findByCategory(categoryId).stream()
                 .map(ItemDTO::new)
                 .collect(Collectors.toList());
 
