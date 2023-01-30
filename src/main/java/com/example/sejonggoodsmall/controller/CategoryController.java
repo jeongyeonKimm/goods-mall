@@ -44,13 +44,15 @@ public class CategoryController {
                     .body(responseDTO);
         }
     }
-/*
+
     @GetMapping("/all")
     public ResponseEntity<?> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryDTO> categories = categoryService.getAllCategories().stream()
+                .map(CategoryDTO::new)
+                .collect(Collectors.toList());
 
         return ResponseEntity
                 .ok()
                 .body(categories);
-    }*/
+    }
 }

@@ -2,8 +2,10 @@ package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.ItemDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
+import com.example.sejonggoodsmall.model.Category;
 import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.model.ItemStatus;
+import com.example.sejonggoodsmall.service.CategoryService;
 import com.example.sejonggoodsmall.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService itemService;
+    private final CategoryService categoryService;
 
     /**
      * 상품 등록
@@ -28,10 +31,13 @@ public class ItemController {
     public ResponseEntity<?> registerItem(@RequestBody ItemDTO itemDTO) {
         try {
             Item item = ItemDTO.toEntity(itemDTO);
+            Category category = categoryService.findOne(itemDTO.getCategoryId()).get();
+            item.setCategory(category);
 
             Item registerItem = itemService.register(item);
 
             ItemDTO responseItemDTO = ItemDTO.builder()
+                    .categoryId(registerItem.getCategory().getId())
                     .id(registerItem.getId())
                     .title(registerItem.getTitle())
                     .price(registerItem.getPrice())

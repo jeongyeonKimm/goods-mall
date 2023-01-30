@@ -16,6 +16,9 @@ public class ItemDTO {
 
     private Long id;
 
+    @NotBlank(message = "카테고리를 입력해주세요.")
+    private Long categoryId;
+
     @NotBlank(message = "상품명을 입력해주세요.")
     private String title;
 
@@ -44,5 +47,6 @@ public class ItemDTO {
                 .description(itemDTO.getDescription())
                 .status(ItemStatus.ACTIVE)
                 .build();
+
     }
 }
