@@ -1,19 +1,21 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jdk.jshell.Snippet;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "CATEGORY_ID")
     private Long id;
 

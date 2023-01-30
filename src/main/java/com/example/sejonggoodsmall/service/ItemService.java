@@ -25,4 +25,8 @@ public class ItemService {
     public List<Item> findAllItems() {
         return itemRepository.findAll();
     }
+
+    public List<Item> findByCategory(Long categoryId) {
+        return itemRepository.findByCategory(categoryId);
+    }
 }

@@ -27,4 +27,7 @@ public class ItemOption {
     private String size;
 
     private String color;
+
+    @Column(nullable = false)
+    private int price;
 }
