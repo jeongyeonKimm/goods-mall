@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "ITEM_IMAGES")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemImage {
+public class ItemImage extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "ITEM_IMAGES_ID")
@@ -24,4 +24,6 @@ public class ItemImage {
 
     @Embedded
     private UploadFile uploadFile;
+
+
 }

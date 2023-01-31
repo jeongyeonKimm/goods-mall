@@ -29,6 +29,10 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private int price;
 
+    private String color;
+
+    private String size;
+
     @Embedded
     private UploadFile thumbnail;
 
@@ -47,9 +51,6 @@ public class Item extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemOption> itemOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();

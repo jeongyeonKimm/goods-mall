@@ -43,6 +43,8 @@ public class ItemController {
                     .title(registerItem.getTitle())
                     .price(registerItem.getPrice())
                     .description(registerItem.getDescription())
+                    .size(registerItem.getSize())
+                    .color(registerItem.getColor())
                     .build();
 
             return ResponseEntity
@@ -97,6 +99,8 @@ public class ItemController {
                 .price(item.getPrice())
                 .description(item.getDescription())
                 .itemImages(item.getItemImages())
+                .color(item.getColor())
+                .size(item.getSize())
                 .build();
 
         return ResponseEntity

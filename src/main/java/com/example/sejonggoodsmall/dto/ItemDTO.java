@@ -24,6 +24,10 @@ public class ItemDTO {
     @NotBlank(message = "상품명을 입력해주세요.")
     private String title;
 
+    private String color;
+
+    private String size;
+
     @NotBlank(message = "가격을 입력해주세요.")
     private int price;
 
@@ -38,6 +42,8 @@ public class ItemDTO {
     public ItemDTO(Item item) {
         this.title = item.getTitle();
         this.price = item.getPrice();
+        this.color = item.getColor();
+        this.size = item.getSize();
         //this.thumbnail = item.getThumbnail();
         this.description = item.getDescription();
     }
@@ -49,6 +55,8 @@ public class ItemDTO {
                 .price(itemDTO.getPrice())
                 //.thumbnail(itemDTO.getThumbnail())
                 .description(itemDTO.getDescription())
+                .color(itemDTO.getColor())
+                .size(itemDTO.getSize())
                 .status(ItemStatus.ACTIVE)
                 .build();
 

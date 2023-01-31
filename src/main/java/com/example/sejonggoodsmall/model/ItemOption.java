@@ -17,10 +17,6 @@ public class ItemOption {
     @Column(name = "ITEM_OPTION_ID")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "ITEM_ID")
-    private Item item;
-
     @Column(nullable = false)
     private int quantity;
 
@@ -30,4 +26,5 @@ public class ItemOption {
 
     @Column(nullable = false)
     private int price;
+
 }
