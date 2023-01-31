@@ -4,7 +4,8 @@ import com.example.sejonggoodsmall.dto.ItemDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Category;
 import com.example.sejonggoodsmall.model.Item;
-import com.example.sejonggoodsmall.model.ItemStatus;
+import com.example.sejonggoodsmall.model.ItemImage;
+import com.example.sejonggoodsmall.model.ItemOption;
 import com.example.sejonggoodsmall.service.CategoryService;
 import com.example.sejonggoodsmall.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -72,8 +73,8 @@ public class ItemController {
     /**
      * 카테고리별 상품 조회
      */
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getItemsByCategory(@PathVariable("categoryId") Long categoryId) {
+    @GetMapping
+    public ResponseEntity<?> getItemsByCategory(@RequestParam(value = "categoryId") Long categoryId) {
         List<ItemDTO> items = itemService.findByCategory(categoryId).stream()
                 .map(ItemDTO::new)
                 .collect(Collectors.toList());
@@ -81,5 +82,25 @@ public class ItemController {
         return ResponseEntity
                 .ok()
                 .body(items);
+    }
+
+    /**
+     * 상품 상세보기
+     */
+    @GetMapping("/detail/{itemId}")
+    public ResponseEntity<?> getItemDetail(@PathVariable("itemId") Long itemId) {
+        Item item = itemService.findOne(itemId);
+
+        ItemDTO itemDTO = ItemDTO.builder()
+                .id(item.getId())
+                .title(item.getTitle())
+                .price(item.getPrice())
+                .description(item.getDescription())
+                .itemImages(item.getItemImages())
+                .build();
+
+        return ResponseEntity
+                .ok()
+                .body(itemDTO);
     }
 }

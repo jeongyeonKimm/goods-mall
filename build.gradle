@@ -65,6 +65,12 @@ sourceSets {
 	main.java.srcDir querydslDir
 }
 configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	clean {
+		delete file('src/main/generated')
+	}
 	querydsl.extendsFrom compileClasspath
 }
 compileQuerydsl {

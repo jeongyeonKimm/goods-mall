@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,8 +27,10 @@ public class ItemDTO {
     @NotBlank(message = "가격을 입력해주세요.")
     private int price;
 
-    //@NotBlank(message = "대표사진을 입력해주세요.")
-    //private UploadFile thumbnail;
+    @NotBlank(message = "대표사진을 입력해주세요.")
+    private UploadFile thumbnail;
+
+    private List<ItemImage> itemImages = new ArrayList<>();
 
     private String description;
 

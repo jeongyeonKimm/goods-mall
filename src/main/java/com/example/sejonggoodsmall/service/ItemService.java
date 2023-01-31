@@ -29,4 +29,8 @@ public class ItemService {
     public List<Item> findByCategory(Long categoryId) {
         return itemRepository.findByCategory(categoryId);
     }
+
+    public Item findOne(Long itemId) {
+        return itemRepository.findItemDetail(itemId);
+    }
 }
