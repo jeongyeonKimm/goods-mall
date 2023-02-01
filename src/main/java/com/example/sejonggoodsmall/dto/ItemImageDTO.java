@@ -1,9 +1,9 @@
 package com.example.sejonggoodsmall.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.sejonggoodsmall.model.ItemImage;
+import lombok.*;
+import org.modelmapper.ModelMapper;
+
 
 @Data
 @Builder
@@ -20,4 +20,11 @@ public class ItemImageDTO {
     private String imgUrl;
 
     private String repImgUrl;
+
+    private static ModelMapper modelMapper = new ModelMapper();
+
+
+    public static ItemImageDTO of(ItemImage itemImage){
+        return modelMapper.map(itemImage, ItemImageDTO.class);
+    }
 }

@@ -5,14 +5,16 @@ import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Category;
 import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.model.ItemImage;
-import com.example.sejonggoodsmall.model.ItemOption;
 import com.example.sejonggoodsmall.service.CategoryService;
+import com.example.sejonggoodsmall.service.ItemImageService;
 import com.example.sejonggoodsmall.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,29 +25,44 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemImageService itemImageService;
     private final CategoryService categoryService;
 
     /**
      * 상품 등록
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerItem(@RequestBody ItemDTO itemDTO) {
+    public ResponseEntity<?> registerItem(
+            @RequestPart(value = "itemDTO") ItemDTO itemDTO,
+            @RequestPart(value = "itemImgList") List<MultipartFile> itemImgList) {
+
+        if(itemImgList.get(0).isEmpty() && itemDTO.getId() == null){
+            throw new RuntimeException("대표 이미지는 필수 입력값 입니다.");
+        }
+
         try {
             Item item = ItemDTO.toEntity(itemDTO);
             Category category = categoryService.findOne(itemDTO.getCategoryId()).get();
             item.setCategory(category);
 
-            Item registerItem = itemService.register(item);
+            Item registerItem = itemService.register(item, itemImgList);
+            List<ItemImage> registerImage = new ArrayList<>();
 
-            ItemDTO responseItemDTO = ItemDTO.builder()
-                    .categoryId(registerItem.getCategory().getId())
-                    .id(registerItem.getId())
-                    .title(registerItem.getTitle())
-                    .price(registerItem.getPrice())
-                    .description(registerItem.getDescription())
-                    .size(registerItem.getSize())
-                    .color(registerItem.getColor())
-                    .build();
+            for(int i=0;i<itemImgList.size();i++){
+                ItemImage itemImg = new ItemImage();
+                itemImg.setItem(registerItem);
+
+                if(i == 0)
+                    itemImg.setRepImgUrl("Y");
+                else
+                    itemImg.setRepImgUrl("N");
+
+                registerImage.add(itemImg);
+                itemImageService.saveItemImg(itemImg, itemImgList.get(i));
+            }
+            registerItem.setItemImages(registerImage);
+
+            ItemDTO responseItemDTO = ItemDTO.of(registerItem);
 
             return ResponseEntity
                     .ok()
@@ -98,7 +115,6 @@ public class ItemController {
                 .title(item.getTitle())
                 .price(item.getPrice())
                 .description(item.getDescription())
-                .itemImages(item.getItemImages())
                 .color(item.getColor())
                 .size(item.getSize())
                 .build();

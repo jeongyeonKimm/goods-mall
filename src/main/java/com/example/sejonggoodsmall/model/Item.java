@@ -33,9 +33,6 @@ public class Item extends BaseEntity {
 
     private String size;
 
-    @Embedded
-    private UploadFile thumbnail;
-
     @Lob
     private String description;
 
@@ -61,4 +58,7 @@ public class Item extends BaseEntity {
         category.getItems().add(this);
     }
 
+    public void setItemImages(List<ItemImage> itemImages) {
+        this.itemImages = itemImages;
+    }
 }
