@@ -80,13 +80,16 @@ public class ItemController {
      */
     @GetMapping("/all")
     public ResponseEntity<?> getAllItems() {
-        List<ItemDTO> items = itemService.findAllItems().stream()
-                .map(ItemDTO::new)
-                .collect(Collectors.toList());
+        List<Item> items = itemService.findAllItems();
+
+        List<ItemDTO> responseItemDTOs = new ArrayList<>();
+        for (Item item : items) {
+            responseItemDTOs.add(ItemDTO.of(item));
+        }
 
         return ResponseEntity
                 .ok()
-                .body(items);
+                .body(responseItemDTOs);
     }
 
     /**
@@ -94,13 +97,16 @@ public class ItemController {
      */
     @GetMapping
     public ResponseEntity<?> getItemsByCategory(@RequestParam(value = "categoryId") Long categoryId) {
-        List<ItemDTO> items = itemService.findByCategory(categoryId).stream()
-                .map(ItemDTO::new)
-                .collect(Collectors.toList());
+        List<Item> items = itemService.findByCategory(categoryId);
+
+        List<ItemDTO> responseItemDTOs = new ArrayList<>();
+        for (Item item : items) {
+            responseItemDTOs.add(ItemDTO.of(item));
+        }
 
         return ResponseEntity
                 .ok()
-                .body(items);
+                .body(responseItemDTOs);
     }
 
     /**
@@ -110,14 +116,7 @@ public class ItemController {
     public ResponseEntity<?> getItemDetail(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findOne(itemId);
 
-        ItemDTO itemDTO = ItemDTO.builder()
-                .id(item.getId())
-                .title(item.getTitle())
-                .price(item.getPrice())
-                .description(item.getDescription())
-                .color(item.getColor())
-                .size(item.getSize())
-                .build();
+        ItemDTO itemDTO = ItemDTO.of(item);
 
         return ResponseEntity
                 .ok()

@@ -1,6 +1,5 @@
 package com.example.sejonggoodsmall.model;
 
-import com.example.sejonggoodsmall.dto.ItemDTO;
 import lombok.*;
 
 import javax.persistence.*;
