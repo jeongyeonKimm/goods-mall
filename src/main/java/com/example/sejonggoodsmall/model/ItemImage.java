@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.jbosslog.JBossLog;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class ItemImage extends BaseEntity {
 
     private String oriImgName; //원본 이미지 파일명
 
+    @Column(columnDefinition = "LONGTEXT")
     private String imgUrl; //이미지 조회 경로
 
     private String repImgUrl; //대표 이미지 여부
