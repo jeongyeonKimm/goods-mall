@@ -28,8 +28,9 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private int price;
 
-    @Embedded
-    private UploadFile thumbnail;
+    private String color;
+
+    private String size;
 
     @Lob
     private String description;
@@ -43,13 +44,20 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<CategoryItem> categoryItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemOption> itemOptions = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();
 
+    // == 연관관계 메서드 == //
+    public void setCategory(Category category) {
+        this.category = category;
+        category.getItems().add(this);
+    }
+
+    public void setItemImages(List<ItemImage> itemImages) {
+        this.itemImages = itemImages;
+    }
 }

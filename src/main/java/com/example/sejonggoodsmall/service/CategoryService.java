@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,8 +21,13 @@ public class CategoryService {
     public Category register(Category category) {
         return categoryRepository.save(category);
     }
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    public Optional<Category> findOne(Long categoryId) {
+        return categoryRepository.findById(categoryId);
     }
 
 }

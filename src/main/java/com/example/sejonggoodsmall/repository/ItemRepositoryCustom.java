@@ -7,4 +7,5 @@ import java.util.List;
 public interface ItemRepositoryCustom {
 
     List<Item> findByCategory(Long id);
+    Item findItemDetail(Long itemId);
 }

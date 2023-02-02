@@ -43,6 +43,12 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+	// modelmapper
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
+
+	// AWS-S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 test {
@@ -60,6 +66,12 @@ sourceSets {
 	main.java.srcDir querydslDir
 }
 configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	clean {
+		delete file('src/main/generated')
+	}
 	querydsl.extendsFrom compileClasspath
 }
 compileQuerydsl {

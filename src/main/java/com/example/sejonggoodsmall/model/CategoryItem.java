@@ -1,5 +1,6 @@
 package com.example.sejonggoodsmall.model;
 
+import com.example.sejonggoodsmall.dto.ItemDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,5 @@ public class CategoryItem {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
 }

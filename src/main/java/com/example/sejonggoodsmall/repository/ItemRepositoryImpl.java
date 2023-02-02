@@ -2,12 +2,11 @@ package com.example.sejonggoodsmall.repository;
 
 import com.example.sejonggoodsmall.model.Item;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.sejonggoodsmall.model.QCategoryItem.categoryItem;
+import static com.example.sejonggoodsmall.model.QCategory.category;
 import static com.example.sejonggoodsmall.model.QItem.item;
 
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
@@ -19,12 +18,21 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     }
 
     @Override
-    public List<Item> findByCategory(Long id) {
+    public List<Item> findByCategory(Long categoryId) {
         return jpaQueryFactory
                 .select(item)
                 .from(item)
-                .join(item.categoryItems, categoryItem)
-                .where(categoryItem.category.id.eq(id))
+                .join(item.category, category).fetchJoin()
+                .where(item.category.id.eq(categoryId))
                 .fetch();
+    }
+
+    @Override
+    public Item findItemDetail(Long itemId) {
+        return jpaQueryFactory
+                .select(item)
+                .from(item)
+                .where(item.id.eq(itemId))
+                .fetchOne();
     }
 }
