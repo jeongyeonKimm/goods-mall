@@ -29,9 +29,8 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/auth/**").permitAll()
-                .anyRequest()
-                .authenticated();
+                    .antMatchers("/", "/items/**", "/auth/**").permitAll()
+                    .anyRequest().authenticated();
 
         http.addFilterAfter(
                 jwtAuthenticationFilter,
