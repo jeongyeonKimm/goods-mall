@@ -4,10 +4,9 @@ import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -31,8 +30,14 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member getByCredentials(String email, String password) {
-        return memberRepository.findByEmailAndPassword(email, password);
+    public Member getByCredentials(String email, String password, final PasswordEncoder passwordEncoder) {
+        final Member originalMember = memberRepository.findByEmail(email);
+
+        if (originalMember != null && passwordEncoder.matches(password, originalMember.getPassword())) {
+            return originalMember;
+        }
+
+        return null;
     }
 
     public Member findEmail(String name, String birth) {

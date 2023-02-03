@@ -9,6 +9,8 @@ import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -19,6 +21,8 @@ public class AuthController {
 
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerMember(@RequestBody MemberDTO memberDTO) {
@@ -27,6 +31,7 @@ public class AuthController {
                     .email(memberDTO.getEmail())
                     .password(memberDTO.getPassword())
                     .name(memberDTO.getUsername())
+                    .password(passwordEncoder.encode(memberDTO.getPassword()))
                     .birth(memberDTO.getBirth())
                     .status(MemberStatus.ACTIVE)
                     .build();
@@ -54,7 +59,7 @@ public class AuthController {
 
     @PostMapping ("/signin")
     public ResponseEntity<?> authenticate(@RequestBody MemberDTO memberDTO) {
-        Member member = memberService.getByCredentials(memberDTO.getEmail(), memberDTO.getPassword());
+        Member member = memberService.getByCredentials(memberDTO.getEmail(), memberDTO.getPassword(), passwordEncoder);
         
         if (member != null) {
             final String token = tokenProvider.create(member);
