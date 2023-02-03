@@ -26,7 +26,7 @@ public class ItemInfoService {
         //파일 업로드
         if(!StringUtils.isEmpty(oriInfoName)){
             infoName = fileService.uploadFile(itemInfoFile);
-            infoUrl = "/images/item/" + infoName;
+            infoUrl = "/images/info/" + infoName;
         }
 
         //상품 이미지 정보 저장
