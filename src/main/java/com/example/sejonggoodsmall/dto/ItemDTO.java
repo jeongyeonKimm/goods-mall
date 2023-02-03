@@ -35,6 +35,9 @@ public class ItemDTO {
     @NotBlank(message = "사진은 한장 이상 입력해주세요.")
     private List<ItemImageDTO> itemImages = new ArrayList<>();
 
+    @NotBlank(message = "상품 상세 사진은 한장 이상 입력해주세요.")
+    private List<ItemInfoDTO> itemInfos = new ArrayList<>();
+
     private String description;
 
     private static ModelMapper modelMapper = new ModelMapper();

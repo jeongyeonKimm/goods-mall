@@ -5,8 +5,10 @@ import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Category;
 import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.model.ItemImage;
+import com.example.sejonggoodsmall.model.ItemInfo;
 import com.example.sejonggoodsmall.service.CategoryService;
 import com.example.sejonggoodsmall.service.ItemImageService;
+import com.example.sejonggoodsmall.service.ItemInfoService;
 import com.example.sejonggoodsmall.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -26,6 +27,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final ItemImageService itemImageService;
+    private final ItemInfoService itemInfoService;
     private final CategoryService categoryService;
 
     /**
@@ -34,7 +36,8 @@ public class ItemController {
     @PostMapping("/register")
     public ResponseEntity<?> registerItem(
             @RequestPart(value = "itemDTO") ItemDTO itemDTO,
-            @RequestPart(value = "itemImgList") List<MultipartFile> itemImgList) {
+            @RequestPart(value = "itemImgList") List<MultipartFile> itemImgList,
+            @RequestPart(value = "itemInfoList") List<MultipartFile> itemInfoList) {
 
         if(itemImgList.get(0).isEmpty() && itemDTO.getId() == null){
             throw new RuntimeException("대표 이미지는 필수 입력값 입니다.");
@@ -47,6 +50,7 @@ public class ItemController {
 
             Item registerItem = itemService.register(item, itemImgList);
             List<ItemImage> registerImage = new ArrayList<>();
+            List<ItemInfo> registerInfo = new ArrayList<>();
 
             for(int i=0;i<itemImgList.size();i++){
                 ItemImage itemImg = new ItemImage();
@@ -61,6 +65,14 @@ public class ItemController {
                 itemImageService.saveItemImg(itemImg, itemImgList.get(i));
             }
             registerItem.setItemImages(registerImage);
+
+            for(int i=0;i<itemInfoList.size();i++){
+                ItemInfo itemInfo = new ItemInfo();
+                itemInfo.setItem(registerItem);
+                registerInfo.add(itemInfo);
+                itemInfoService.saveItemInfo(itemInfo, itemInfoList.get(i));
+            }
+            registerItem.setItemInfos(registerInfo);
 
             ItemDTO responseItemDTO = ItemDTO.of(registerItem);
 
