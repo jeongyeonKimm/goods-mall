@@ -1,4 +1,4 @@
-package com.example.sejonggoodsmall;
+package com.example.sejonggoodsmall.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
