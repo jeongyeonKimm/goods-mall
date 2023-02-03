@@ -16,6 +16,9 @@ public class MemberDTO {
 
     private Long id;
 
+    @NotBlank(message = "토큰을 입력해주세요.")
+    private String token;
+
     @Email
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;

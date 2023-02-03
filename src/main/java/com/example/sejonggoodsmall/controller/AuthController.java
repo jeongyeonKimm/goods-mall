@@ -4,6 +4,7 @@ import com.example.sejonggoodsmall.dto.MemberDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.MemberStatus;
+import com.example.sejonggoodsmall.security.TokenProvider;
 import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final MemberService memberService;
+    private final TokenProvider tokenProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerMember(@RequestBody MemberDTO memberDTO) {
@@ -55,9 +57,11 @@ public class AuthController {
         Member member = memberService.getByCredentials(memberDTO.getEmail(), memberDTO.getPassword());
         
         if (member != null) {
+            final String token = tokenProvider.create(member);
             final MemberDTO responseMemberDTO = MemberDTO.builder()
                     .email(member.getEmail())
                     .id(member.getId())
+                    .token(token)
                     .build();
 
             return ResponseEntity
