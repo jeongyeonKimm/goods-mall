@@ -16,7 +16,6 @@ public class CartDTO {
     private String color;
     private String size;
     private int price;
-    private int totalPrice;
 
     private static ModelMapper modelMapper = new ModelMapper();
 

@@ -80,4 +80,33 @@ public class CartController {
                 .ok()
                 .body(cartDTOList);
     }
+
+    @DeleteMapping("/delete/{cartId}")
+    public ResponseEntity<?> deleteCartItem(
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable("cartId") Long cartId) {
+        try {
+            Cart cartItem = cartService.findOne(cartId);
+            if (cartItem.getMember().getId() == memberId) {
+                List<Cart> cartList = cartService.delete(cartItem);
+
+                List<CartDTO> cartDTOList = new ArrayList<>();
+                for (Cart cart : cartList) {
+                    cartDTOList.add(CartDTO.of(cart));
+                }
+
+                return ResponseEntity
+                        .ok()
+                        .body(cartDTOList);
+            }
+            else {
+                log.warn("Unknown member.");
+                throw new RuntimeException("Unknown member.");
+            }
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<CartDTO> response = ResponseDTO.<CartDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
