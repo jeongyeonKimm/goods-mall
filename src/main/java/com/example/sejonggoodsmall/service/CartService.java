@@ -21,15 +21,22 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public boolean findCartItems(Cart cart) {
+    @Transactional
+    public Cart findCartItems(Cart cart, int itemPrice) {
         List<Cart> cartList =  cartRepository.findByMemberIdAndItemId(cart.getMember().getId(), cart.getItem().getId());
 
         for (Cart c : cartList) {
             if (c.getSize().equals(cart.getSize()) && c.getColor().equals(cart.getColor())) {
-                return true;
+                Cart dupCartItem = cartRepository.findById(c.getId()).get();
+                dupCartItem.addQuantity(cart.getQuantity());
+                dupCartItem.updatePrice(itemPrice, cart.getQuantity());
+                return dupCartItem;
             }
         }
-        return false;
+        return null;
     }
 
+    public List<Cart> findCartItemsByMemberId(Long memberId) {
+        return cartRepository.findByMemberId(memberId);
+    }
 }

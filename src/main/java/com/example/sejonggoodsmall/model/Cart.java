@@ -31,12 +31,16 @@ public class Cart extends BaseEntity {
     private String size;
     private String color;
 
+    @Column(nullable = false)
+    private int price;
+
     public static Cart toEntity(final CartDTO cartDTO) {
         return Cart.builder()
                 .id(cartDTO.getId())
                 .quantity(cartDTO.getQuantity())
                 .size(cartDTO.getSize())
                 .color(cartDTO.getColor())
+                .price(0)
                 .build();
     }
 
@@ -46,5 +50,13 @@ public class Cart extends BaseEntity {
 
     public void updateItem(Item item) {
         this.item = item;
+    }
+
+    public void updatePrice(int price, int quantity) {
+        this.price += price * quantity;
+    }
+
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }

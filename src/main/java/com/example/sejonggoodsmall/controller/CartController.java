@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -37,10 +40,17 @@ public class CartController {
             Cart cart = Cart.toEntity(cartDTO);
             cart.updateMember(member);
             cart.updateItem(item);
+            cart.updatePrice(item.getPrice(), cartDTO.getQuantity());
 
-            boolean isAlreadyExisted = cartService.findCartItems(cart);
+            Cart registeredCartItem = cartService.findCartItems(cart, item.getPrice());
 
-            if (isAlreadyExisted) throw new RuntimeException("이미 장바구니에 있습니다.");
+            if (registeredCartItem != null) {
+                CartDTO responseCartDTO = CartDTO.of(registeredCartItem);
+
+                return ResponseEntity
+                        .ok()
+                        .body(responseCartDTO);
+            }
             else {
                 Cart registeredCart = cartService.register(cart);
                 CartDTO responseCartDTO = CartDTO.of(registeredCart);
@@ -55,5 +65,19 @@ public class CartController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getCartList(
+            @AuthenticationPrincipal Long memberId) {
+        List<Cart> cartList = cartService.findCartItemsByMemberId(memberId);
+
+        List<CartDTO> cartDTOList = new ArrayList<>();
+        for (Cart cart : cartList) {
+            cartDTOList.add(CartDTO.of(cart));
+        }
+
+        return ResponseEntity
+                .ok()
+                .body(cartDTOList);
+    }
 }
