@@ -1,17 +1,18 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.sejonggoodsmall.dto.CartDTO;
+import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Cart {
+public class Cart extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "CART_ID")
@@ -22,10 +23,28 @@ public class Cart {
     private Member member;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "ITEM_OPTION_ID")
-    private ItemOption itemOption;
+    @JoinColumn(name = "ITEM_ID")
+    private Item item;
 
-    private int count;
+    @Column(nullable = false)
+    private int quantity;
+    private String size;
+    private String color;
 
-    private boolean status;
+    public static Cart toEntity(final CartDTO cartDTO) {
+        return Cart.builder()
+                .id(cartDTO.getId())
+                .quantity(cartDTO.getQuantity())
+                .size(cartDTO.getSize())
+                .color(cartDTO.getColor())
+                .build();
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
+    public void updateItem(Item item) {
+        this.item = item;
+    }
 }

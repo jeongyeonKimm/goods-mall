@@ -43,4 +43,8 @@ public class MemberService {
     public Member findEmail(String name, String birth) {
         return memberRepository.findByNameAndBirth(name, birth);
     }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).get();
+    }
 }

@@ -54,6 +54,9 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemInfo> itemInfos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Cart> carts = new ArrayList<>();
+
     // == 연관관계 메서드 == //
     public void setCategory(Category category) {
         this.category = category;
