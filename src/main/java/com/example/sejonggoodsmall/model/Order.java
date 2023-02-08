@@ -1,8 +1,6 @@
 package com.example.sejonggoodsmall.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,10 +9,12 @@ import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "ORDERS")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Order extends BaseEntity {
 
     @Id @GeneratedValue
@@ -41,9 +41,31 @@ public class Order extends BaseEntity {
         member.getOrders().add(this);
     }
 
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
+
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.addOrder(this);
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    // == 생성 메서드 == //
+    public static Order createOrder(Member member, List<OrderItem> orderItems, Delivery delivery) {
+        Order order = new Order();
+        order.setMember(member);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setDelivery(delivery);
+
+        return order;
     }
 
 }
