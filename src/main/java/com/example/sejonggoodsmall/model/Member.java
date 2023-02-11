@@ -32,13 +32,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String birth;
 
-    @Embedded
-    private Address address;
-
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
-
 }

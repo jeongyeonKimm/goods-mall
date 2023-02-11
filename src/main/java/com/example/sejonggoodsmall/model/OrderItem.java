@@ -1,15 +1,22 @@
 package com.example.sejonggoodsmall.model;
 
+import com.example.sejonggoodsmall.dto.OrderDTO;
+import com.example.sejonggoodsmall.dto.OrderItemDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
@@ -31,8 +38,28 @@ public class OrderItem {
     @Column(nullable = false)
     private int count;
 
+    private String color;
+    private String size;
+
     // == 연관관계 메서드 == //
     public void addOrder(Order order) {
         this.order = order;
+    }
+
+    // == 생성 메서드 == //
+    public static List<OrderItem> createOrderItem(Item item, OrderDTO orderDTO) {
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (OrderItemDTO oi : orderDTO.getOrderItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setOrderPrice(item.getPrice() * oi.getQuantity());
+            orderItem.setCount(oi.getQuantity());
+            orderItem.setColor(oi.getColor());
+            orderItem.setSize(oi.getSize());
+            orderItems.add(orderItem);
+        }
+
+        return orderItems;
     }
 }
