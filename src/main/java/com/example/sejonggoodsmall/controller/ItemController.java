@@ -96,6 +96,8 @@ public class ItemController {
 
         List<ItemDTO> responseItemDTOs = new ArrayList<>();
         for (Item item : items) {
+            ItemDTO itemDTO = ItemDTO.of(item);
+            itemDTO.setCategoryName(item.getCategory().getName());
             responseItemDTOs.add(ItemDTO.of(item));
         }
 

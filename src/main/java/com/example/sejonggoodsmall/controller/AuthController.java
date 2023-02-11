@@ -63,6 +63,7 @@ public class AuthController {
         
         if (member != null) {
             final String token = tokenProvider.create(member);
+
             final MemberDTO responseMemberDTO = MemberDTO.builder()
                     .email(member.getEmail())
                     .id(member.getId())
@@ -106,4 +107,5 @@ public class AuthController {
                     .body(responseDTO);
         }
     }
+
 }

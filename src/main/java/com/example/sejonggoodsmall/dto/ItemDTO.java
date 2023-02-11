@@ -22,6 +22,8 @@ public class ItemDTO {
     @NotBlank(message = "카테고리를 입력해주세요.")
     private Long categoryId;
 
+    private String categoryName;
+
     @NotBlank(message = "상품명을 입력해주세요.")
     private String title;
 

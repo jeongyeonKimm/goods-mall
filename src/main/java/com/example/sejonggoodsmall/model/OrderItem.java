@@ -53,7 +53,7 @@ public class OrderItem {
         for (OrderItemDTO oi : orderDTO.getOrderItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
-            orderItem.setOrderPrice(oi.getPrice() * oi.getQuantity());
+            orderItem.setOrderPrice(item.getPrice() * oi.getQuantity());
             orderItem.setCount(oi.getQuantity());
             orderItem.setColor(oi.getColor());
             orderItem.setSize(oi.getSize());
