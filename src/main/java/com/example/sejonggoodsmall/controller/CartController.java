@@ -1,6 +1,7 @@
 package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.CartDTO;
+import com.example.sejonggoodsmall.dto.ItemImageDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Cart;
 import com.example.sejonggoodsmall.model.Item;
@@ -73,7 +74,10 @@ public class CartController {
 
         List<CartDTO> cartDTOList = new ArrayList<>();
         for (Cart cart : cartList) {
-            cartDTOList.add(CartDTO.of(cart));
+            CartDTO cartDTO = CartDTO.of(cart);
+            cartDTO.setTitle(cart.getItem().getTitle());
+            cartDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+            cartDTOList.add(cartDTO);
         }
 
         return ResponseEntity
