@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Getter
 public class CartDTO {
@@ -16,6 +19,8 @@ public class CartDTO {
     private String color;
     private String size;
     private int price;
+    private String title;
+    private ItemImageDTO repImage;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
