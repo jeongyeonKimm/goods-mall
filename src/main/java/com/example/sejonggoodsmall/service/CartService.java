@@ -29,7 +29,7 @@ public class CartService {
 
         for (Cart c : cartList) {
             if (c.getSize().equals(cart.getSize()) && c.getColor().equals(cart.getColor())) {
-                Cart dupCartItem = cartRepository.findById(c.getId()).get();
+                Cart dupCartItem = cartRepository.findById(c.getId()).orElseThrow();
                 dupCartItem.addQuantity(cart.getQuantity());
                 dupCartItem.updatePrice(itemPrice, cart.getQuantity());
                 return dupCartItem;
@@ -43,7 +43,7 @@ public class CartService {
     }
 
     public Cart findOne(Long cartId) {
-        return cartRepository.findById(cartId).get();
+        return cartRepository.findById(cartId).orElseThrow();
     }
 
     @Transactional
