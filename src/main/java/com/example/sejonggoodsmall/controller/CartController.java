@@ -91,7 +91,8 @@ public class CartController {
             @PathVariable("cartId") Long cartId) {
         try {
             Cart cartItem = cartService.findOne(cartId);
-            if (cartItem.getMember().getId() == memberId) {
+
+            if (cartItem.getMember().getId().equals(memberId)) {
                 List<Cart> cartList = cartService.delete(cartItem);
 
                 List<CartDTO> cartDTOList = new ArrayList<>();
