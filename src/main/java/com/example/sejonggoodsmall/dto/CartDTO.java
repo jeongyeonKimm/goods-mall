@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Getter
 public class CartDTO {

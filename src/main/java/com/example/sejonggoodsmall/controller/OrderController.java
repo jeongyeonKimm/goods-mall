@@ -4,16 +4,11 @@ import com.example.sejonggoodsmall.dto.CartDTO;
 import com.example.sejonggoodsmall.dto.OrderDTO;
 import com.example.sejonggoodsmall.dto.OrderItemDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
-import com.example.sejonggoodsmall.model.Cart;
-import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.Order;
 import com.example.sejonggoodsmall.model.OrderItem;
-import com.example.sejonggoodsmall.service.CartService;
-import com.example.sejonggoodsmall.service.MemberService;
 import com.example.sejonggoodsmall.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -63,4 +58,19 @@ public class OrderController {
                     .body(responseDTO);
         }
     }
+
+//    @PostMapping("/cart")
+//    public ResponseEntity<?> orderCartList(@AuthenticationPrincipal Long memberId,
+//                                           @RequestBody OrderDTO orderDTO, List<CartDTO> cartDTOList) {
+//        try {
+//            for (CartDTO cartDTO : cartDTOList) {
+//
+//            }
+//        } catch (Exception e) {
+//            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(responseDTO);
+//        }
+//    }
 }
