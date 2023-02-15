@@ -21,6 +21,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Transactional
     public Order order(Long itemId, OrderDTO orderDTO, Long memberId) {
@@ -57,5 +58,11 @@ public class OrderService {
         orderRepository.save(order);
 
         return order;
+    }
+
+    public List<Order> findAll(Long memberId) {
+
+        return orderRepository.findByMember(memberId);
+
     }
 }

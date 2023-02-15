@@ -27,6 +27,8 @@ public class OrderDTO {
 
     private Address address;
 
+    private OrderStatus status;
+
     private List<OrderItemDTO> orderItems = new ArrayList<>();
 
     private List<Long> cartIdList = new ArrayList<>();

@@ -1,10 +1,10 @@
 package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.*;
-import com.example.sejonggoodsmall.model.Cart;
+import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.Order;
 import com.example.sejonggoodsmall.model.OrderItem;
-import com.example.sejonggoodsmall.service.CartService;
+import com.example.sejonggoodsmall.service.MemberService;
 import com.example.sejonggoodsmall.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
-    private final CartService cartService;
+    private final MemberService memberService;
 
     @PostMapping("/{itemId}")
     public ResponseEntity<?> orderItem(@AuthenticationPrincipal Long memberId,
@@ -87,6 +87,41 @@ public class OrderController {
             return ResponseEntity
                     .ok()
                     .body(responseDTO);
+        } catch (Exception e) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+    }
+
+    @GetMapping("/list/all")
+    public ResponseEntity<?> getOrderList(@AuthenticationPrincipal Long memberId) {
+        try {
+            List<Order> orders = orderService.findAll(memberId);
+
+            List<OrderDTO> orderDTOList = new ArrayList<>();
+            for (Order order : orders) {
+                List<OrderItemDTO> dtos = new ArrayList<>();
+                for (OrderItem oi : order.getOrderItems()) {
+                    dtos.add(OrderItemDTO.of(oi));
+                }
+
+                OrderDTO orderDTO = OrderDTO.builder()
+                        .id(order.getId())
+                        .buyerName(order.getMember().getName())
+                        .phoneNumber(order.getDelivery().getPhoneNumber())
+                        .address(order.getDelivery().getAddress())
+                        .status(order.getStatus())
+                        .orderItems(dtos)
+                        .build();
+                orderDTOList.add(orderDTO);
+            }
+
+            return ResponseEntity
+                    .ok()
+                    .body(orderDTOList);
+
         } catch (Exception e) {
             ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
             return ResponseEntity
