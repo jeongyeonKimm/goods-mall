@@ -43,9 +43,9 @@ public class CartController {
             cart.updateItem(item);
             cart.updatePrice(item.getPrice(), cartDTO.getQuantity());
 
-            Cart registeredCartItem = cartService.findCartItems(cart, item.getPrice());
+            Cart registeredCartItem = cartService.findCartItems(cart, itemId, item.getPrice());
 
-            if (registeredCartItem != null) {
+            if (registeredCartItem != cart) {
                 CartDTO responseCartDTO = CartDTO.of(registeredCartItem);
 
                 return ResponseEntity
