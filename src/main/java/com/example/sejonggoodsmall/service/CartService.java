@@ -1,6 +1,5 @@
 package com.example.sejonggoodsmall.service;
 
-import com.example.sejonggoodsmall.dto.CartDTO;
 import com.example.sejonggoodsmall.model.Cart;
 import com.example.sejonggoodsmall.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +23,34 @@ public class CartService {
     }
 
     @Transactional
-    public Cart findCartItems(Cart cart, int itemPrice) {
-        List<Cart> cartList =  cartRepository.findByMemberIdAndItemId(cart.getMember().getId(), cart.getItem().getId());
+    public Cart findCartItems(Cart cart, Long itemId, int itemPrice) throws RuntimeException {
+            List<Cart> cartList = cartRepository.findByMemberIdAndItemId(cart.getMember().getId(), itemId);
 
-        for (Cart c : cartList) {
-            if (c.getSize().equals(cart.getSize()) && c.getColor().equals(cart.getColor())) {
-                Cart dupCartItem = cartRepository.findById(c.getId()).get();
-                dupCartItem.addQuantity(cart.getQuantity());
-                dupCartItem.updatePrice(itemPrice, cart.getQuantity());
-                return dupCartItem;
+            for (Cart c : cartList) {
+                Cart dupCartItem = cartRepository.findById(c.getId()).orElseThrow();
+                if (cart.getSize() == null && c.getSize() == null && cart.getColor() == null && c.getColor() == null) {
+                    dupCartItem.addQuantity(cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
+                    return dupCartItem;
+                }
+                if (cart.getSize() == null && c.getColor().equals(cart.getColor())) {
+                    dupCartItem.addQuantity(cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
+                    return dupCartItem;
+                }
+                if (cart.getColor() == null && c.getSize().equals(cart.getSize())) {
+                    System.out.println();
+                    dupCartItem.addQuantity(cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
+                    return dupCartItem;
+                }
+                if (c.getSize().equals(cart.getSize()) && c.getColor().equals(cart.getColor())) {
+                    dupCartItem.addQuantity(cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
+                    return dupCartItem;
+                }
             }
-        }
-        return null;
+            return null;
     }
 
     public List<Cart> findCartItemsByMemberId(Long memberId) {
@@ -43,7 +58,7 @@ public class CartService {
     }
 
     public Cart findOne(Long cartId) {
-        return cartRepository.findById(cartId).get();
+        return cartRepository.findById(cartId).orElseThrow();
     }
 
     @Transactional
@@ -58,6 +73,20 @@ public class CartService {
         }
 
         return findCartItemsByMemberId(cart.getMember().getId());
+    }
+
+    @Transactional
+    public Cart updateCartItem(Cart cart, int quantity) {
+        try {
+
+            cart.updateQuantity(quantity);
+            cart.updatePrice(cart.getItem().getPrice(), quantity);
+
+            return cart;
+        } catch (Exception e) {
+            log.error("error updating cart item ", cart.getId(), e);
+            throw new RuntimeException("error updating cart item " + cart.getId());
+        }
     }
 
     private void validate(final Cart entity) {

@@ -27,8 +27,11 @@ public class OrderDTO {
 
     private Address address;
 
-    @NotBlank(message = "구매할 상품을 입력해주세요.")
+    private OrderStatus status;
+
     private List<OrderItemDTO> orderItems = new ArrayList<>();
+
+    private List<Long> cartIdList = new ArrayList<>();
 
     private static ModelMapper modelMapper = new ModelMapper();
 

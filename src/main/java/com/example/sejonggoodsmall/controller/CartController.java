@@ -43,9 +43,9 @@ public class CartController {
             cart.updateItem(item);
             cart.updatePrice(item.getPrice(), cartDTO.getQuantity());
 
-            Cart registeredCartItem = cartService.findCartItems(cart, item.getPrice());
+            Cart registeredCartItem = cartService.findCartItems(cart, itemId, item.getPrice());
 
-            if (registeredCartItem != null) {
+            if (registeredCartItem != cart) {
                 CartDTO responseCartDTO = CartDTO.of(registeredCartItem);
 
                 return ResponseEntity
@@ -97,7 +97,10 @@ public class CartController {
 
                 List<CartDTO> cartDTOList = new ArrayList<>();
                 for (Cart cart : cartList) {
-                    cartDTOList.add(CartDTO.of(cart));
+                    CartDTO cartDTO = CartDTO.of(cart);
+                    cartDTO.setTitle(cart.getItem().getTitle());
+                    cartDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+                    cartDTOList.add(cartDTO);
                 }
 
                 return ResponseEntity
@@ -108,6 +111,29 @@ public class CartController {
                 log.warn("Unknown member.");
                 throw new RuntimeException("Unknown member.");
             }
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<CartDTO> response = ResponseDTO.<CartDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateCartItem(
+            @AuthenticationPrincipal Long memberId,
+            @RequestBody CartDTO cartDTO) {
+        try {
+            Cart cart = cartService.findOne(cartDTO.getId());
+            Cart updatedCartItem = cartService.updateCartItem(cart, cartDTO.getQuantity());
+
+            CartDTO responseDTO = CartDTO.of(updatedCartItem);
+            responseDTO.setTitle(cart.getItem().getTitle());
+            responseDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+
         } catch (Exception e) {
             String error = e.getMessage();
             ResponseDTO<CartDTO> response = ResponseDTO.<CartDTO>builder().error(error).build();

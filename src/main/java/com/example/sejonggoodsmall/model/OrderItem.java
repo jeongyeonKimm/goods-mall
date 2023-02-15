@@ -62,4 +62,16 @@ public class OrderItem {
 
         return orderItems;
     }
+
+    public static OrderItem createOrderItemInCart(Item item, Cart cart) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(item.getPrice() * cart.getQuantity());
+        orderItem.setCount(cart.getQuantity());
+        orderItem.setColor(cart.getColor());
+        orderItem.setSize(cart.getSize());
+
+        return orderItem;
+    }
+
 }
