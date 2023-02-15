@@ -97,7 +97,10 @@ public class CartController {
 
                 List<CartDTO> cartDTOList = new ArrayList<>();
                 for (Cart cart : cartList) {
-                    cartDTOList.add(CartDTO.of(cart));
+                    CartDTO cartDTO = CartDTO.of(cart);
+                    cartDTO.setTitle(cart.getItem().getTitle());
+                    cartDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+                    cartDTOList.add(cartDTO);
                 }
 
                 return ResponseEntity
