@@ -30,23 +30,23 @@ public class CartService {
                 Cart dupCartItem = cartRepository.findById(c.getId()).orElseThrow();
                 if (cart.getSize() == null && c.getSize() == null && cart.getColor() == null && c.getColor() == null) {
                     dupCartItem.addQuantity(cart.getQuantity());
-                    dupCartItem.updatePrice(itemPrice, cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
                     return dupCartItem;
                 }
                 if (cart.getSize() == null && c.getColor().equals(cart.getColor())) {
                     dupCartItem.addQuantity(cart.getQuantity());
-                    dupCartItem.updatePrice(itemPrice, cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
                     return dupCartItem;
                 }
                 if (cart.getColor() == null && c.getSize().equals(cart.getSize())) {
                     System.out.println();
                     dupCartItem.addQuantity(cart.getQuantity());
-                    dupCartItem.updatePrice(itemPrice, cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
                     return dupCartItem;
                 }
                 if (c.getSize().equals(cart.getSize()) && c.getColor().equals(cart.getColor())) {
                     dupCartItem.addQuantity(cart.getQuantity());
-                    dupCartItem.updatePrice(itemPrice, cart.getQuantity());
+                    dupCartItem.addPrice(itemPrice, cart.getQuantity());
                     return dupCartItem;
                 }
             }
@@ -73,6 +73,20 @@ public class CartService {
         }
 
         return findCartItemsByMemberId(cart.getMember().getId());
+    }
+
+    @Transactional
+    public Cart updateCartItem(Cart cart, int quantity) {
+        try {
+
+            cart.updateQuantity(quantity);
+            cart.updatePrice(cart.getItem().getPrice(), quantity);
+
+            return cart;
+        } catch (Exception e) {
+            log.error("error updating cart item ", cart.getId(), e);
+            throw new RuntimeException("error updating cart item " + cart.getId());
+        }
     }
 
     private void validate(final Cart entity) {

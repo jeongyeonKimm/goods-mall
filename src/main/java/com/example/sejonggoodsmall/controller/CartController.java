@@ -117,4 +117,27 @@ public class CartController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateCartItem(
+            @AuthenticationPrincipal Long memberId,
+            @RequestBody CartDTO cartDTO) {
+        try {
+            Cart cart = cartService.findOne(cartDTO.getId());
+            Cart updatedCartItem = cartService.updateCartItem(cart, cartDTO.getQuantity());
+
+            CartDTO responseDTO = CartDTO.of(updatedCartItem);
+            responseDTO.setTitle(cart.getItem().getTitle());
+            responseDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<CartDTO> response = ResponseDTO.<CartDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
