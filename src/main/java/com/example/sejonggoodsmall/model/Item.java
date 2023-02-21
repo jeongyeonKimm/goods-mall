@@ -19,9 +19,6 @@ public class Item extends BaseEntity {
     @Column(name = "ITEM_ID")
     private Long id;
 
-    @Column(length = 30)
-    private String seller;
-
     @Column(nullable = false, length = 30)
     private String title;
 
@@ -47,6 +44,10 @@ public class Item extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "SELLER_ID")
+    private Seller seller;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemImage> itemImages = new ArrayList<>();
