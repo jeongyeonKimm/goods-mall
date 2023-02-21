@@ -42,6 +42,8 @@ public class ItemDTO {
 
     private String description;
 
+    private int cartItemCount;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public ItemDTO(Item item) {
