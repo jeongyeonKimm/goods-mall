@@ -45,6 +45,6 @@ public class MemberService {
     }
 
     public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).get();
+        return memberRepository.findById(memberId).orElseThrow();
     }
 }

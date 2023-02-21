@@ -34,6 +34,8 @@ public class ItemDTO {
     @NotBlank(message = "가격을 입력해주세요.")
     private int price;
 
+    private Seller seller;
+
     @NotBlank(message = "사진은 한장 이상 입력해주세요.")
     private List<ItemImageDTO> itemImages = new ArrayList<>();
 
@@ -41,6 +43,8 @@ public class ItemDTO {
     private List<ItemInfoDTO> itemInfos = new ArrayList<>();
 
     private String description;
+
+    private int cartItemCount;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -60,6 +64,7 @@ public class ItemDTO {
                 .description(itemDTO.getDescription())
                 .color(itemDTO.getColor())
                 .size(itemDTO.getSize())
+                .seller(itemDTO.getSeller())
                 .status(ItemStatus.ACTIVE)
                 .build();
 

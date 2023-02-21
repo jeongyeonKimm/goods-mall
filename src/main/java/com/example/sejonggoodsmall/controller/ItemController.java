@@ -1,18 +1,14 @@
 package com.example.sejonggoodsmall.controller;
 
+import com.example.sejonggoodsmall.dto.CartDTO;
 import com.example.sejonggoodsmall.dto.ItemDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
-import com.example.sejonggoodsmall.model.Category;
-import com.example.sejonggoodsmall.model.Item;
-import com.example.sejonggoodsmall.model.ItemImage;
-import com.example.sejonggoodsmall.model.ItemInfo;
-import com.example.sejonggoodsmall.service.CategoryService;
-import com.example.sejonggoodsmall.service.ItemImageService;
-import com.example.sejonggoodsmall.service.ItemInfoService;
-import com.example.sejonggoodsmall.service.ItemService;
+import com.example.sejonggoodsmall.model.*;
+import com.example.sejonggoodsmall.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,10 +21,13 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
+    private final MemberService memberService;
     private final ItemService itemService;
     private final ItemImageService itemImageService;
     private final ItemInfoService itemInfoService;
     private final CategoryService categoryService;
+    private final CartService cartService;
+
 
     /**
      * 상품 등록
@@ -91,14 +90,20 @@ public class ItemController {
      * 전체 상품 조회
      */
     @GetMapping("/all")
-    public ResponseEntity<?> getAllItems() {
+    public ResponseEntity<?> getAllItems(@RequestBody CartDTO cartDTO) {
+
+        int cartItemCount = cartService.findCartItemsByMemberId(cartDTO.getMemberId()).size();
+
+        System.out.println(cartItemCount);
+
         List<Item> items = itemService.findAllItems();
 
         List<ItemDTO> responseItemDTOs = new ArrayList<>();
         for (Item item : items) {
             ItemDTO itemDTO = ItemDTO.of(item);
             itemDTO.setCategoryName(item.getCategory().getName());
-            responseItemDTOs.add(ItemDTO.of(item));
+            itemDTO.setCartItemCount(cartItemCount);
+            responseItemDTOs.add(itemDTO);
         }
 
         return ResponseEntity

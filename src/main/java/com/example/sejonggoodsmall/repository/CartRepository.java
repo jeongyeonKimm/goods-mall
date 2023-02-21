@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    @Query("select c from Cart c where c.member.id = :memberId and c.item.id = :itemId")
-    List<Cart> findByMemberIdAndItemId(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
+    @Query("select c from Cart c where c.member.id = :memberId and c.item.id = :itemId and (:size is null or c.size = :size) and (:color is null or c.color = :color)")
+    Cart findSameOption(Long memberId, Long itemId, String size, String color);
 
     @Query("select c from Cart c where c.member.id = :memberId")
     List<Cart> findByMemberId(@Param("memberId") Long memberId);
