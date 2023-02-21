@@ -29,7 +29,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/", "/items/**", "/auth/**").permitAll()
+                    .antMatchers("/", "/items/**", "/auth/**", "/categories/**").permitAll()
                     .anyRequest().authenticated();
 
         http.addFilterAfter(
