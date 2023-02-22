@@ -27,6 +27,10 @@ public class Seller extends BaseEntity{
     @Column(nullable = false)
     private String phoneNumber;
 
+    private String accountHolder;
+    private String bank;
+    private String account;
+
     @Enumerated(EnumType.STRING)
     private Method method;
 

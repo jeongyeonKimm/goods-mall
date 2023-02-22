@@ -17,6 +17,9 @@ public class SellerDTO {
     private Long id;
     private String name;
     private String phoneNumber;
+    private String accountHolder;
+    private String bank;
+    private String account;
     private Method method;
 
     private static ModelMapper modelMapper = new ModelMapper();
