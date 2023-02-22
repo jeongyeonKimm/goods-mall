@@ -18,6 +18,7 @@ public class CartDTO {
     private int price;
     private String title;
     private ItemImageDTO repImage;
+    private String seller;
 
     private static ModelMapper modelMapper = new ModelMapper();
 

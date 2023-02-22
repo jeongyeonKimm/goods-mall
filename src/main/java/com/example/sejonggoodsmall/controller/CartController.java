@@ -77,6 +77,7 @@ public class CartController {
             CartDTO cartDTO = CartDTO.of(cart);
             cartDTO.setTitle(cart.getItem().getTitle());
             cartDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+            cartDTO.setSeller(cart.getItem().getSeller().getName());
             cartDTOList.add(cartDTO);
         }
 
