@@ -37,7 +37,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
-                        .seller(orderItem.getItem().getSeller().getName())
+                        .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
             }
@@ -75,7 +75,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
-                        .seller(orderItem.getItem().getSeller().getName())
+                        .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
             }
@@ -109,7 +109,7 @@ public class OrderController {
                 List<OrderItemDTO> dtos = new ArrayList<>();
                 for (OrderItem oi : order.getOrderItems()) {
                     OrderItemDTO orderItemDTO = OrderItemDTO.of(oi);
-                    orderItemDTO.setSeller(oi.getItem().getSeller().getName());
+                    orderItemDTO.setSeller(oi.getItem().getSeller());
                     dtos.add(orderItemDTO);
                 }
 

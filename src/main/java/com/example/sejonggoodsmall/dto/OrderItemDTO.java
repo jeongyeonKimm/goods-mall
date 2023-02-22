@@ -2,6 +2,7 @@ package com.example.sejonggoodsmall.dto;
 
 import com.example.sejonggoodsmall.model.Order;
 import com.example.sejonggoodsmall.model.OrderItem;
+import com.example.sejonggoodsmall.model.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class OrderItemDTO {
     private String size;
     private int quantity;
     private int price;
-    private String seller;
+    private Seller seller;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
