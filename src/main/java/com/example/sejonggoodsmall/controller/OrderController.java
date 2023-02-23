@@ -37,6 +37,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
+                        .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
             }
@@ -46,6 +47,7 @@ public class OrderController {
                     .orderItems(orderItemDTOS)
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
+                    .seller(orderDTO.getSeller())
                     .build();
 
             return ResponseEntity
@@ -73,6 +75,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
+                        .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
             }
@@ -82,6 +85,7 @@ public class OrderController {
                     .orderItems(orderItemDTOS)
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
+                    .seller(orderDTO.getSeller())
                     .build();
 
             return ResponseEntity
@@ -104,7 +108,9 @@ public class OrderController {
             for (Order order : orders) {
                 List<OrderItemDTO> dtos = new ArrayList<>();
                 for (OrderItem oi : order.getOrderItems()) {
-                    dtos.add(OrderItemDTO.of(oi));
+                    OrderItemDTO orderItemDTO = OrderItemDTO.of(oi);
+                    orderItemDTO.setSeller(oi.getItem().getSeller());
+                    dtos.add(orderItemDTO);
                 }
 
                 OrderDTO orderDTO = OrderDTO.builder()

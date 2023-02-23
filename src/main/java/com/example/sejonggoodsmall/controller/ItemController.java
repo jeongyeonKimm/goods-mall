@@ -8,7 +8,6 @@ import com.example.sejonggoodsmall.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +20,6 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final MemberService memberService;
     private final ItemService itemService;
     private final ItemImageService itemImageService;
     private final ItemInfoService itemInfoService;
@@ -89,7 +87,7 @@ public class ItemController {
     /**
      * 전체 상품 조회
      */
-    @GetMapping("/all")
+    @PostMapping("/all")
     public ResponseEntity<?> getAllItems(@RequestBody CartDTO cartDTO) {
 
         int cartItemCount = cartService.findCartItemsByMemberId(cartDTO.getMemberId()).size();

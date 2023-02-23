@@ -26,6 +26,9 @@ public class SellerController {
             Seller seller = Seller.builder()
                     .name(sellerDTO.getName())
                     .phoneNumber(sellerDTO.getPhoneNumber())
+                    .accountHolder(sellerDTO.getAccountHolder())
+                    .bank(sellerDTO.getBank())
+                    .account(sellerDTO.getAccount())
                     .method(sellerDTO.getMethod())
                     .build();
 
