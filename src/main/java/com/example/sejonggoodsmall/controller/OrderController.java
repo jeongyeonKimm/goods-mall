@@ -85,6 +85,7 @@ public class OrderController {
                     .orderItems(orderItemDTOS)
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
+                    .orderMethod(orderDTO.getOrderMethod())
                     .seller(orderDTO.getSeller())
                     .build();
 

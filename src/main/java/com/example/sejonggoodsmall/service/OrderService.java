@@ -56,6 +56,7 @@ public class OrderService {
         }
 
         Order order = Order.createOrder(member, orderItems, delivery);
+        order.setOrderMethod(orderDTO.getOrderMethod());
         orderRepository.save(order);
 
         return order;
