@@ -34,6 +34,8 @@ public class Cart extends BaseEntity {
     @Column(nullable = false)
     private int price;
 
+    private String cartMethod;
+
     public static Cart toEntity(final CartDTO cartDTO) {
         return Cart.builder()
                 .id(cartDTO.getId())
@@ -41,6 +43,7 @@ public class Cart extends BaseEntity {
                 .size(cartDTO.getSize())
                 .color(cartDTO.getColor())
                 .price(0)
+                .cartMethod(cartDTO.getCartMethod())
                 .build();
     }
 
