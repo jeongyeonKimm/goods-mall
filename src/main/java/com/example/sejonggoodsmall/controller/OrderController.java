@@ -47,6 +47,7 @@ public class OrderController {
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
                     .orderMethod(orderDTO.getOrderMethod())
+                    .createdAt(order.getCreatedAt())
                     .seller(orderDTO.getSeller())
                     .build();
 
@@ -86,6 +87,7 @@ public class OrderController {
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
                     .orderMethod(orderDTO.getOrderMethod())
+                    .createdAt(order.getCreatedAt())
                     .seller(orderDTO.getSeller())
                     .build();
 

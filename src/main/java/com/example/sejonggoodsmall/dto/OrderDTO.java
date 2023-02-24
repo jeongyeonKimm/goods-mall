@@ -9,6 +9,8 @@ import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class OrderDTO {
 
     @NotBlank(message = "주문 방법을 입력해주세요.")
     private String orderMethod;
+
+    private LocalDateTime createdAt;
 
     private Seller seller;
 
