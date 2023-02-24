@@ -34,6 +34,7 @@ public class OrderService {
         List<OrderItem> orderItems = OrderItem.createOrderItem(item, orderDTO);
 
         Order order = Order.createOrder(member, orderItems, delivery);
+        order.setOrderMethod(orderDTO.getOrderMethod());
         orderRepository.save(order);
 
         return order;
@@ -55,6 +56,7 @@ public class OrderService {
         }
 
         Order order = Order.createOrder(member, orderItems, delivery);
+        order.setOrderMethod(orderDTO.getOrderMethod());
         orderRepository.save(order);
 
         return order;
