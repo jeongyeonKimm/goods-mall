@@ -21,6 +21,8 @@ public class Order extends BaseEntity {
     @Column(name = "ORDERS_ID")
     private Long id;
 
+    private String orderMethod;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -49,6 +51,10 @@ public class Order extends BaseEntity {
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.addOrder(this);
+    }
+
+    public void setOrderMethod(String orderMethod) {
+        this.orderMethod = orderMethod;
     }
 
     public void setStatus(OrderStatus status) {

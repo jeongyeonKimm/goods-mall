@@ -1,7 +1,6 @@
 package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.*;
-import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.Order;
 import com.example.sejonggoodsmall.model.OrderItem;
 import com.example.sejonggoodsmall.service.MemberService;
@@ -47,6 +46,7 @@ public class OrderController {
                     .orderItems(orderItemDTOS)
                     .buyerName(orderDTO.getBuyerName())
                     .phoneNumber(orderDTO.getPhoneNumber())
+                    .orderMethod(orderDTO.getOrderMethod())
                     .seller(orderDTO.getSeller())
                     .build();
 
