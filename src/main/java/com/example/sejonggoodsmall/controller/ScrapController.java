@@ -1,6 +1,7 @@
 package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.ScrapDTO;
+import com.example.sejonggoodsmall.dto.ScrapItemDTO;
 import com.example.sejonggoodsmall.model.Scrap;
 import com.example.sejonggoodsmall.service.ScrapService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,11 +28,11 @@ public class ScrapController {
 
            Scrap scrap = scrapService.insert(scrapDTO);
 
-           ScrapDTO responseDTO = ScrapDTO.of(scrap);
+           String result = "상품을 찜했습니다.";
 
            return ResponseEntity
                    .ok()
-                   .body(responseDTO);
+                   .body(result);
        } catch (Exception e) {
            String error = e.getMessage();
            return ResponseEntity
@@ -49,6 +52,22 @@ public class ScrapController {
             return ResponseEntity
                     .ok()
                     .body(result);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getScrapList(@AuthenticationPrincipal Long memberId) {
+        try {
+            List<ScrapItemDTO> scrapItemDTOList = scrapService.getScrapList(memberId);
+
+            return ResponseEntity
+                    .ok()
+                    .body(scrapItemDTOList);
         } catch (Exception e) {
             String error = e.getMessage();
             return ResponseEntity
