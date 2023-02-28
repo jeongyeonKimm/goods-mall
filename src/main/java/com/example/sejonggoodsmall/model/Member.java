@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -30,7 +32,7 @@ public class Member extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private String birth;
+    private Date birth;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
