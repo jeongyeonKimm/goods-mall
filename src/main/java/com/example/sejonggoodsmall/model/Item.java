@@ -32,7 +32,7 @@ public class Item extends BaseEntity {
     @Lob
     private String description;
 
-    private int viewCount;
+    private int scrapCount;
 
     private LocalDateTime startDate;
 
@@ -70,5 +70,13 @@ public class Item extends BaseEntity {
 
     public void setItemInfos(List<ItemInfo> itemInfos) {
         this.itemInfos = itemInfos;
+    }
+
+    public void addScrapCount() {
+        this.scrapCount += 1;
+    }
+
+    public void subtractScrapCount() {
+        this.scrapCount -= 1;
     }
 }
