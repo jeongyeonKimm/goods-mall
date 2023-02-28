@@ -32,6 +32,8 @@ public class OrderDTO {
 
     private LocalDateTime createdAt;
 
+    private String deliveryRequest;
+
     private Seller seller;
 
     private Address address;

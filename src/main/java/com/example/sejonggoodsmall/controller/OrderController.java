@@ -49,6 +49,7 @@ public class OrderController {
                     .orderMethod(orderDTO.getOrderMethod())
                     .createdAt(order.getCreatedAt())
                     .seller(orderDTO.getSeller())
+                    .deliveryRequest(orderDTO.getDeliveryRequest())
                     .build();
 
             return ResponseEntity
@@ -89,6 +90,7 @@ public class OrderController {
                     .orderMethod(orderDTO.getOrderMethod())
                     .createdAt(order.getCreatedAt())
                     .seller(orderDTO.getSeller())
+                    .deliveryRequest(orderDTO.getDeliveryRequest())
                     .build();
 
             return ResponseEntity
