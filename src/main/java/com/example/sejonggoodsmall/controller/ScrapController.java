@@ -37,4 +37,23 @@ public class ScrapController {
                    .body(error);
        }
     }
+
+    @DeleteMapping("/delete/{itemId}")
+    public ResponseEntity<?> deleteScrapItem(@AuthenticationPrincipal Long memberId,
+                                             @PathVariable("itemId") Long itemId) {
+        try {
+            ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
+            scrapService.delete(scrapDTO);
+
+            String result = "찜하기가 취소되었습니다.";
+            return ResponseEntity
+                    .ok()
+                    .body(result);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
+    }
 }

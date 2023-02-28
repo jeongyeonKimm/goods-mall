@@ -1,5 +1,6 @@
 package com.example.sejonggoodsmall.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.example.sejonggoodsmall.dto.ScrapDTO;
 import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.model.Member;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ScrapService {
 
@@ -42,5 +42,21 @@ public class ScrapService {
         Scrap savedScrap = scrapRepository.save(scrap);
 
         return savedScrap;
+    }
+
+    @Transactional
+    public void delete(ScrapDTO scrapDTO) throws Exception {
+        Member member = memberRepository.findById(scrapDTO.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        Item item = itemRepository.findById(scrapDTO.getItemId())
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+
+        Scrap scrap = scrapRepository.findByMemberAndItem(member, item);
+        if (scrap == null) {
+            throw new NotFoundException("찜하기를 찾을 수 없습니다.");
+        }
+
+        scrapRepository.delete(scrap);
     }
 }
