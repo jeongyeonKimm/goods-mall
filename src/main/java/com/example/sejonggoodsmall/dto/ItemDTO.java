@@ -43,6 +43,7 @@ public class ItemDTO {
     private List<ItemInfoDTO> itemInfos = new ArrayList<>();
 
     private String description;
+    private int scrapCount;
 
     private int cartItemCount;
 
@@ -66,6 +67,7 @@ public class ItemDTO {
                 .size(itemDTO.getSize())
                 .seller(itemDTO.getSeller())
                 .status(ItemStatus.ACTIVE)
+                .scrapCount(0)
                 .build();
 
     }
