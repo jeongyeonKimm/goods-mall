@@ -33,6 +33,7 @@ public class Item extends BaseEntity {
     private String description;
 
     private int scrapCount;
+    private boolean isScraped;
 
     private LocalDateTime startDate;
 
@@ -78,5 +79,13 @@ public class Item extends BaseEntity {
 
     public void subtractScrapCount() {
         this.scrapCount -= 1;
+    }
+
+    public void updateIsScraped() {
+        if (this.isScraped == true) {
+            this.isScraped = false;
+        } else {
+            this.isScraped = true;
+        }
     }
 }

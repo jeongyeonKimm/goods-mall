@@ -44,8 +44,8 @@ public class ItemDTO {
 
     private String description;
     private int scrapCount;
-
     private int cartItemCount;
+    private boolean isScraped;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -68,6 +68,7 @@ public class ItemDTO {
                 .seller(itemDTO.getSeller())
                 .status(ItemStatus.ACTIVE)
                 .scrapCount(0)
+                .isScraped(false)
                 .build();
 
     }

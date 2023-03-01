@@ -8,6 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -40,7 +43,7 @@ public class MemberService {
         return null;
     }
 
-    public Member findEmail(String name, String birth) {
+    public Member findEmail(String name, Date birth) {
         return memberRepository.findByNameAndBirth(name, birth);
     }
 

@@ -13,12 +13,14 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 public class ScrapItemDTO {
 
+    private Long itemId;
     private String title;
     private String description;
     private int price;
     private ItemImageDTO repImage;
 
-    public ScrapItemDTO(String title, String description, int price, ItemImageDTO repImage) {
+    public ScrapItemDTO(Long itemId, String title, String description, int price, ItemImageDTO repImage) {
+        this.itemId = itemId;
         this.title = title;
         this.description = description;
         this.price = price;

@@ -23,6 +23,8 @@ public class Order extends BaseEntity {
 
     private String orderMethod;
 
+    private String deliveryRequest;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
