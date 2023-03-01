@@ -3,11 +3,13 @@ package com.example.sejonggoodsmall.controller;
 import com.example.sejonggoodsmall.dto.CartDTO;
 import com.example.sejonggoodsmall.dto.ItemDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
+import com.example.sejonggoodsmall.dto.ScrapItemDTO;
 import com.example.sejonggoodsmall.model.*;
 import com.example.sejonggoodsmall.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +27,7 @@ public class ItemController {
     private final ItemInfoService itemInfoService;
     private final CategoryService categoryService;
     private final CartService cartService;
+    private final ScrapService scrapService;
 
 
     /**
@@ -92,8 +95,6 @@ public class ItemController {
 
         int cartItemCount = cartService.findCartItemsByMemberId(cartDTO.getMemberId()).size();
 
-        System.out.println(cartItemCount);
-
         List<Item> items = itemService.findAllItems();
 
         List<ItemDTO> responseItemDTOs = new ArrayList<>();
@@ -130,9 +131,19 @@ public class ItemController {
      * 상품 상세보기
      */
     @GetMapping("/detail/{itemId}")
-    public ResponseEntity<?> getItemDetail(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<?> getItemDetail(@AuthenticationPrincipal Long memberId,
+                                           @PathVariable("itemId") Long itemId) {
         Item item = itemService.findOne(itemId);
 
+        if (memberId != null) {
+            List<ScrapItemDTO> scrapList = scrapService.getScrapList(memberId);
+            for (ScrapItemDTO scrapItemDTO : scrapList) {
+                if (scrapItemDTO.getItemId() == itemId) {
+                    item.updateIsScraped();
+                }
+            }
+        }
+        
         ItemDTO itemDTO = ItemDTO.of(item);
 
         return ResponseEntity
