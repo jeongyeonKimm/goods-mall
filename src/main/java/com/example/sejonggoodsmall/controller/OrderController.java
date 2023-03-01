@@ -32,6 +32,7 @@ public class OrderController {
             List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
             for (OrderItem orderItem : order.getOrderItems()) {
                 OrderItemDTO orderItemDTO = OrderItemDTO.builder()
+                        .itemId(orderItem.getItem().getId())
                         .price(orderItem.getOrderPrice())
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
@@ -73,6 +74,7 @@ public class OrderController {
 
             for (OrderItem orderItem : order.getOrderItems()) {
                 OrderItemDTO orderItemDTO = OrderItemDTO.builder()
+                        .itemId(orderItem.getItem().getId())
                         .price(orderItem.getOrderPrice())
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
@@ -114,6 +116,7 @@ public class OrderController {
                 List<OrderItemDTO> dtos = new ArrayList<>();
                 for (OrderItem oi : order.getOrderItems()) {
                     OrderItemDTO orderItemDTO = OrderItemDTO.of(oi);
+                    orderItemDTO.setItemId(oi.getItem().getId());
                     orderItemDTO.setSeller(oi.getItem().getSeller());
                     dtos.add(orderItemDTO);
                 }

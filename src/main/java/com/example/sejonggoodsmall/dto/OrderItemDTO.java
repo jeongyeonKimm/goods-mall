@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 @AllArgsConstructor
 public class OrderItemDTO {
 
+    private Long itemId;
     private String color;
     private String size;
     private int quantity;
@@ -27,4 +28,7 @@ public class OrderItemDTO {
         return modelMapper.map(orderItem, OrderItemDTO.class);
     }
 
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
 }
