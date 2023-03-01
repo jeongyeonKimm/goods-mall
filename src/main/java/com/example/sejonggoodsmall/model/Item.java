@@ -82,9 +82,7 @@ public class Item extends BaseEntity {
     }
 
     public void updateIsScraped() {
-        if (this.isScraped == true) {
-            this.isScraped = false;
-        } else {
+        if (!this.isScraped) {
             this.isScraped = true;
         }
     }

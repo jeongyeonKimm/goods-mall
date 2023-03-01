@@ -138,12 +138,12 @@ public class ItemController {
         if (memberId != null) {
             List<ScrapItemDTO> scrapList = scrapService.getScrapList(memberId);
             for (ScrapItemDTO scrapItemDTO : scrapList) {
-                if (scrapItemDTO.getItemId() == itemId) {
+                if (scrapItemDTO.getItemId().equals(itemId)) {
                     item.updateIsScraped();
                 }
             }
         }
-        
+
         ItemDTO itemDTO = ItemDTO.of(item);
 
         return ResponseEntity
