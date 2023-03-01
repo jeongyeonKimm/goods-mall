@@ -77,7 +77,7 @@ public class ScrapService {
         List<ScrapItemDTO> scrapItemDTOList = new ArrayList<>();
         for (Scrap scrap : scrapList) {
             ScrapItemDTO scrapItemDTO =
-                    new ScrapItemDTO(scrap.getItem().getTitle(), scrap.getItem().getDescription(), scrap.getItem().getPrice(), ItemImageDTO.of(scrap.getItem().getItemImages().get(0)));
+                    new ScrapItemDTO(scrap.getItem().getId(), scrap.getItem().getTitle(), scrap.getItem().getDescription(), scrap.getItem().getPrice(), ItemImageDTO.of(scrap.getItem().getItemImages().get(0)));
             scrapItemDTOList.add(scrapItemDTO);
         }
         return scrapItemDTOList;
