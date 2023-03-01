@@ -24,7 +24,7 @@ public class CartService {
 
     @Transactional
     public Cart findCartItems(Cart cart, Long itemId, int itemPrice) {
-        Cart cartList = cartRepository.findSameOption(cart.getMember().getId(), itemId, cart.getSize(), cart.getColor());
+        Cart cartList = cartRepository.findSameOption(cart.getMember().getId(), itemId, cart.getSize(), cart.getColor(), cart.getCartMethod());
 
         if (cartList != null) {
             Cart dupCartItem = cartRepository.findById(cartList.getId()).orElseThrow();
