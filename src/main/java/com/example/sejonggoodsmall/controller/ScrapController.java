@@ -6,6 +6,7 @@ import com.example.sejonggoodsmall.model.Scrap;
 import com.example.sejonggoodsmall.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class ScrapController {
 
     private final ScrapService scrapService;
 
-    @PostMapping("/{itemId}")
-    public ResponseEntity<?> scrapItem(@AuthenticationPrincipal Long memberId,
+    @PostMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String scrapItem(@AuthenticationPrincipal Long memberId,
                                     @PathVariable("itemId") Long itemId) {
        try {
            ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
@@ -30,33 +31,25 @@ public class ScrapController {
 
            String result = "상품을 찜했습니다.";
 
-           return ResponseEntity
-                   .ok()
-                   .body(result);
+           return result;
        } catch (Exception e) {
            String error = e.getMessage();
-           return ResponseEntity
-                   .badRequest()
-                   .body(error);
+           return error;
        }
     }
 
-    @DeleteMapping("/delete/{itemId}")
-    public ResponseEntity<?> deleteScrapItem(@AuthenticationPrincipal Long memberId,
+    @DeleteMapping(value = "/delete/{itemId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteScrapItem(@AuthenticationPrincipal Long memberId,
                                              @PathVariable("itemId") Long itemId) {
         try {
             ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
             scrapService.delete(scrapDTO);
 
             String result = "찜하기가 취소되었습니다.";
-            return ResponseEntity
-                    .ok()
-                    .body(result);
+            return result;
         } catch (Exception e) {
             String error = e.getMessage();
-            return ResponseEntity
-                    .badRequest()
-                    .body(error);
+            return error;
         }
     }
 
