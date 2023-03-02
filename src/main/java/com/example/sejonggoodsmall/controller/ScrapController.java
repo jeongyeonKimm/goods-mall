@@ -22,34 +22,44 @@ public class ScrapController {
     private final ScrapService scrapService;
 
     @PostMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String scrapItem(@AuthenticationPrincipal Long memberId,
+    public ResponseEntity<?> scrapItem(@AuthenticationPrincipal Long memberId,
                                     @PathVariable("itemId") Long itemId) {
        try {
            ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
 
            Scrap scrap = scrapService.insert(scrapDTO);
 
-           String result = "상품을 찜했습니다.";
+           ScrapDTO responseDTO = ScrapDTO.of(scrap);
 
-           return result;
+           return ResponseEntity
+                   .ok()
+                   .body(responseDTO);
        } catch (Exception e) {
            String error = e.getMessage();
-           return error;
+           return ResponseEntity
+                   .badRequest()
+                   .body(error);
        }
     }
 
     @DeleteMapping(value = "/delete/{itemId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteScrapItem(@AuthenticationPrincipal Long memberId,
+    public ResponseEntity<?> deleteScrapItem(@AuthenticationPrincipal Long memberId,
                                              @PathVariable("itemId") Long itemId) {
         try {
             ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
             scrapService.delete(scrapDTO);
 
-            String result = "찜하기가 취소되었습니다.";
-            return result;
+            List<ScrapItemDTO> scrapItemDTOList = scrapService.getScrapList(memberId);
+
+            return ResponseEntity
+                    .ok()
+                    .body(scrapItemDTOList);
+
         } catch (Exception e) {
             String error = e.getMessage();
-            return error;
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
         }
     }
 
