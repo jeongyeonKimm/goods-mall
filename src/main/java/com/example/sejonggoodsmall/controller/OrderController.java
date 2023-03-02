@@ -126,6 +126,8 @@ public class OrderController {
                         .buyerName(order.getMember().getName())
                         .phoneNumber(order.getDelivery().getPhoneNumber())
                         .address(order.getDelivery().getAddress())
+                        .createdAt(order.getCreatedAt())
+                        .orderMethod(order.getOrderMethod())
                         .status(order.getStatus())
                         .orderItems(dtos)
                         .build();
