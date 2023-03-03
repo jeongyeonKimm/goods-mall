@@ -45,4 +45,8 @@ public class Member extends BaseEntity {
     public void updateAuthNumber(int authNumber) {
         this.authNumber = authNumber;
     }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

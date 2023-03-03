@@ -142,4 +142,54 @@ public class AuthController {
                     .body(error);
         }
     }
+
+    @PostMapping("/check/authNumber")
+    public ResponseEntity<?> checkAuthNumber(@RequestParam(value = "inputNum") int inputNum,
+                                             @RequestParam(value = "authNum") int authNum) {
+        if (inputNum == authNum) {
+            FindPwDTO findPwDTO = FindPwDTO.builder()
+                    .authNumber(authNum)
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .body(findPwDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("인증번호가 일치하지 않습니다.")
+                    .build();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+    }
+
+    @PostMapping("/update/password")
+    public ResponseEntity<?> updatePassword(@RequestBody MemberDTO memberDTO) {
+
+        try {
+            Member member = Member.builder()
+                    .email(memberDTO.getEmail())
+                    .password(passwordEncoder.encode(memberDTO.getPassword()))
+                    .build();
+
+            Member updated = memberService.updatePassword(member);
+            MemberDTO responseMember = MemberDTO.builder()
+                    .id(updated.getId())
+                    .email(updated.getEmail())
+                    .password(updated.getPassword())
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseMember);
+        } catch (Exception e) {
+            String error = e.getMessage();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
+    }
 }
