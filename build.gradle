@@ -55,6 +55,8 @@ dependencies {
 	// spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	// email authentication
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 test {
