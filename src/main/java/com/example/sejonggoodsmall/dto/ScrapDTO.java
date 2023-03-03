@@ -1,18 +1,19 @@
 package com.example.sejonggoodsmall.dto;
 
 import com.example.sejonggoodsmall.model.Scrap;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 
 @Data
+@Builder
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ScrapDTO {
 
     private Long memberId;
     private Long itemId;
+    private int scrapCount;
 
     public ScrapDTO(Long memberId, Long itemId) {
         this.memberId = memberId;
