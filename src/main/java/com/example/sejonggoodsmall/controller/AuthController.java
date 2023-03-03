@@ -1,10 +1,13 @@
 package com.example.sejonggoodsmall.controller;
 
+import com.example.sejonggoodsmall.dto.FindPwDTO;
+import com.example.sejonggoodsmall.dto.MailDTO;
 import com.example.sejonggoodsmall.dto.MemberDTO;
 import com.example.sejonggoodsmall.dto.ResponseDTO;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.MemberStatus;
 import com.example.sejonggoodsmall.security.TokenProvider;
+import com.example.sejonggoodsmall.service.MailService;
 import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Random;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final MemberService memberService;
+    private final MailService mailService;
     private final TokenProvider tokenProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -108,4 +115,81 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/find/password")
+    public ResponseEntity<?> findPassword(@RequestBody FindPwDTO findPwDTO) {
+        Member member = memberService.findByEmail(findPwDTO.getEmail());
+
+        try {
+            if (member != null) {
+                if (member.getName().equals(findPwDTO.getName())) {
+                    MailDTO mailDTO = mailService.createMailAndChangePassword(member);
+                    mailService.sendMail(mailDTO);
+                }
+            } else {
+                throw new IllegalArgumentException("회원을 찾을 수 없습니다.");
+            }
+
+            FindPwDTO responseDTO = FindPwDTO.of(member);
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+        } catch (Exception e) {
+            String error = e.getMessage();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
+    }
+
+    @PostMapping("/check/authNumber")
+    public ResponseEntity<?> checkAuthNumber(@RequestParam(value = "inputNum") int inputNum,
+                                             @RequestParam(value = "authNum") int authNum) {
+        if (inputNum == authNum) {
+            FindPwDTO findPwDTO = FindPwDTO.builder()
+                    .authNumber(authNum)
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .body(findPwDTO);
+        } else {
+            ResponseDTO responseDTO = ResponseDTO.builder()
+                    .error("인증번호가 일치하지 않습니다.")
+                    .build();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDTO);
+        }
+    }
+
+    @PostMapping("/update/password")
+    public ResponseEntity<?> updatePassword(@RequestBody MemberDTO memberDTO) {
+
+        try {
+            Member member = Member.builder()
+                    .email(memberDTO.getEmail())
+                    .password(passwordEncoder.encode(memberDTO.getPassword()))
+                    .build();
+
+            Member updated = memberService.updatePassword(member);
+            MemberDTO responseMember = MemberDTO.builder()
+                    .id(updated.getId())
+                    .email(updated.getEmail())
+                    .password(updated.getPassword())
+                    .build();
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseMember);
+        } catch (Exception e) {
+            String error = e.getMessage();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
+    }
 }

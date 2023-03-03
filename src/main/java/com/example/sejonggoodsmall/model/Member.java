@@ -37,6 +37,16 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
+    private int authNumber;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
+
+    public void updateAuthNumber(int authNumber) {
+        this.authNumber = authNumber;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

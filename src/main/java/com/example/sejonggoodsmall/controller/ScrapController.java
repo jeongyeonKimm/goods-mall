@@ -2,7 +2,9 @@ package com.example.sejonggoodsmall.controller;
 
 import com.example.sejonggoodsmall.dto.ScrapDTO;
 import com.example.sejonggoodsmall.dto.ScrapItemDTO;
+import com.example.sejonggoodsmall.model.Item;
 import com.example.sejonggoodsmall.model.Scrap;
+import com.example.sejonggoodsmall.service.ItemService;
 import com.example.sejonggoodsmall.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.List;
 public class ScrapController {
 
     private final ScrapService scrapService;
+    private final ItemService itemService;
 
     @PostMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> scrapItem(@AuthenticationPrincipal Long memberId,
@@ -29,7 +32,13 @@ public class ScrapController {
 
            Scrap scrap = scrapService.insert(scrapDTO);
 
-           ScrapDTO responseDTO = ScrapDTO.of(scrap);
+           Item item = itemService.findOne(itemId);
+
+           ScrapDTO responseDTO = ScrapDTO.builder()
+                   .itemId(itemId)
+                   .memberId(memberId)
+                   .scrapCount(item.getScrapCount())
+                   .build();
 
            return ResponseEntity
                    .ok()
@@ -49,11 +58,17 @@ public class ScrapController {
             ScrapDTO scrapDTO = new ScrapDTO(memberId, itemId);
             scrapService.delete(scrapDTO);
 
-            List<ScrapItemDTO> scrapItemDTOList = scrapService.getScrapList(memberId);
+            Item item = itemService.findOne(itemId);
+
+            ScrapDTO responseDTO = ScrapDTO.builder()
+                    .itemId(itemId)
+                    .memberId(memberId)
+                    .scrapCount(item.getScrapCount())
+                    .build();
 
             return ResponseEntity
                     .ok()
-                    .body(scrapItemDTOList);
+                    .body(responseDTO);
 
         } catch (Exception e) {
             String error = e.getMessage();

@@ -50,4 +50,15 @@ public class MemberService {
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow();
     }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public Member updatePassword(Member member) {
+        Member originalMember = memberRepository.findByEmail(member.getEmail());
+        originalMember.updatePassword(member.getPassword());
+        return originalMember;
+    }
 }
