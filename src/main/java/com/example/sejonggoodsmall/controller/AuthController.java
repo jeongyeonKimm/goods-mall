@@ -1,22 +1,19 @@
 package com.example.sejonggoodsmall.controller;
 
-import com.example.sejonggoodsmall.dto.FindPwDTO;
-import com.example.sejonggoodsmall.dto.MailDTO;
-import com.example.sejonggoodsmall.dto.MemberDTO;
-import com.example.sejonggoodsmall.dto.ResponseDTO;
+import com.example.sejonggoodsmall.dto.*;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.MemberStatus;
+import com.example.sejonggoodsmall.security.TokenDTO;
 import com.example.sejonggoodsmall.security.TokenProvider;
 import com.example.sejonggoodsmall.service.MailService;
 import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Random;
 
 @Slf4j
 @RestController
@@ -27,7 +24,6 @@ public class AuthController {
 
     private final MemberService memberService;
     private final MailService mailService;
-    private final TokenProvider tokenProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -69,13 +65,7 @@ public class AuthController {
         Member member = memberService.getByCredentials(memberDTO.getEmail(), memberDTO.getPassword(), passwordEncoder);
         
         if (member != null) {
-            final String token = tokenProvider.create(member);
-
-            final MemberDTO responseMemberDTO = MemberDTO.builder()
-                    .email(member.getEmail())
-                    .id(member.getId())
-                    .token(token)
-                    .build();
+            final MemberDTO responseMemberDTO = memberService.login(member);
 
             return ResponseEntity
                     .ok()
@@ -89,6 +79,11 @@ public class AuthController {
                     .badRequest()
                     .body(responseDTO);
         }
+    }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody TokenDTO token) throws Exception {
+        return new ResponseEntity<>( memberService.refreshAccessToken(token), HttpStatus.OK);
     }
 
     @PostMapping ("/find/email")

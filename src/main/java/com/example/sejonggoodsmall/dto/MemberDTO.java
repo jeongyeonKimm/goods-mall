@@ -1,5 +1,6 @@
 package com.example.sejonggoodsmall.dto;
 
+import com.example.sejonggoodsmall.security.TokenDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -18,10 +18,7 @@ public class MemberDTO {
 
     private Long id;
 
-    @NotBlank(message = "토큰을 입력해주세요.")
-    private String token;
-
-    private String refreshToken;
+    private TokenDTO token;
 
     @Email
     @NotBlank(message = "이메일을 입력해주세요.")
