@@ -17,6 +17,7 @@ public class FindPwDTO {
     private String name;
     private String email;
     private int authNumber;
+    private int inputNum;
 
     private static ModelMapper modelMapper = new ModelMapper();
 

@@ -139,16 +139,19 @@ public class AuthController {
     }
 
     @PostMapping("/check/authNumber")
-    public ResponseEntity<?> checkAuthNumber(@RequestParam(value = "inputNum") int inputNum,
-                                             @RequestParam(value = "authNum") int authNum) {
-        if (inputNum == authNum) {
-            FindPwDTO findPwDTO = FindPwDTO.builder()
+    public ResponseEntity<?> checkAuthNumber(@RequestBody FindPwDTO findPwDTO) {
+        Member member = memberService.findByEmail(findPwDTO.getEmail());
+        int authNum = member.getAuthNumber();
+
+        if (findPwDTO.getInputNum() == authNum) {
+            FindPwDTO responseDTO = FindPwDTO.builder()
                     .authNumber(authNum)
+                    .inputNum(findPwDTO.getInputNum())
                     .build();
 
             return ResponseEntity
                     .ok()
-                    .body(findPwDTO);
+                    .body(responseDTO);
         } else {
             ResponseDTO responseDTO = ResponseDTO.builder()
                     .error("인증번호가 일치하지 않습니다.")
