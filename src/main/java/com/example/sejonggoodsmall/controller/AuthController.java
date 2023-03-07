@@ -1,11 +1,8 @@
 package com.example.sejonggoodsmall.controller;
 
-import com.amazonaws.Response;
 import com.example.sejonggoodsmall.dto.*;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.MemberStatus;
-import com.example.sejonggoodsmall.security.TokenDTO;
-import com.example.sejonggoodsmall.security.TokenProvider;
 import com.example.sejonggoodsmall.service.MailService;
 import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -80,11 +77,6 @@ public class AuthController {
                     .badRequest()
                     .body(responseDTO);
         }
-    }
-
-    @GetMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestBody TokenDTO token) throws Exception {
-        return new ResponseEntity<>( memberService.refreshAccessToken(token), HttpStatus.OK);
     }
 
     @PostMapping ("/find/email")
