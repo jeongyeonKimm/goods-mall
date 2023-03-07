@@ -53,11 +53,14 @@ public class MemberService {
 
     @Transactional
     public MemberDTO login(Member member) {
+        String token = tokenProvider.create(member);
+        member.setAccessToken(token);
+
         return MemberDTO.builder()
                 .email(member.getEmail())
                 .id(member.getId())
                 .token(TokenDTO.builder()
-                        .accessToken(tokenProvider.create(member))
+                        .accessToken(token)
                         .refreshToken(createRefreshToken(member))
                         .build())
                 .build();
@@ -128,5 +131,9 @@ public class MemberService {
         } else {
             throw new Exception("로그인을 해주세요");
         }
+    }
+
+    public Member findByToken(String token) {
+        return memberRepository.findByAccessToken(token);
     }
 }

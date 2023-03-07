@@ -90,24 +90,39 @@ public class ItemController {
     /**
      * 전체 상품 조회
      */
-    @PostMapping("/all")
-    public ResponseEntity<?> getAllItems(@RequestBody CartDTO cartDTO) {
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllItems(@AuthenticationPrincipal Long memberId) {
 
-        int cartItemCount = cartService.findCartItemsByMemberId(cartDTO.getMemberId()).size();
+        if (memberId != null) {
+            int cartItemCount = cartService.findCartItemsByMemberId(memberId).size();
 
-        List<Item> items = itemService.findAllItems();
+            List<Item> items = itemService.findAllItems();
 
-        List<ItemDTO> responseItemDTOs = new ArrayList<>();
-        for (Item item : items) {
-            ItemDTO itemDTO = ItemDTO.of(item);
-            itemDTO.setCategoryName(item.getCategory().getName());
-            itemDTO.setCartItemCount(cartItemCount);
-            responseItemDTOs.add(itemDTO);
+            List<ItemDTO> responseItemDTOs = new ArrayList<>();
+            for (Item item : items) {
+                ItemDTO itemDTO = ItemDTO.of(item);
+                itemDTO.setCategoryName(item.getCategory().getName());
+                itemDTO.setCartItemCount(cartItemCount);
+                responseItemDTOs.add(itemDTO);
+            }
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseItemDTOs);
+        } else {
+            List<Item> items = itemService.findAllItems();
+
+            List<ItemDTO> responseItemDTOs = new ArrayList<>();
+            for (Item item : items) {
+                ItemDTO itemDTO = ItemDTO.of(item);
+                itemDTO.setCategoryName(item.getCategory().getName());
+                responseItemDTOs.add(itemDTO);
+            }
+
+            return ResponseEntity
+                    .ok()
+                    .body(responseItemDTOs);
         }
-
-        return ResponseEntity
-                .ok()
-                .body(responseItemDTOs);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.example.sejonggoodsmall.controller;
 
+import com.amazonaws.Response;
 import com.example.sejonggoodsmall.dto.*;
 import com.example.sejonggoodsmall.model.Member;
 import com.example.sejonggoodsmall.model.MemberStatus;
@@ -189,5 +190,18 @@ public class AuthController {
                     .badRequest()
                     .body(error);
         }
+    }
+
+    @PostMapping("/check/token")
+    public ResponseEntity<?> checkToken(@RequestBody TokenCheckDTO tokenCheckDTO) {
+        Member member = memberService.findByToken(tokenCheckDTO.getAccessToken());
+
+        TokenCheckDTO responseDTO = TokenCheckDTO.builder()
+                .memberId(member.getId())
+                .build();
+
+        return ResponseEntity
+                .ok()
+                .body(responseDTO);
     }
 }
