@@ -1,6 +1,5 @@
 package com.example.sejonggoodsmall.dto;
 
-import com.example.sejonggoodsmall.security.TokenDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class MemberDTO {
 
     private Long id;
 
-    private TokenDTO token;
+    private String token;
 
     @Email
     @NotBlank(message = "이메일을 입력해주세요.")
