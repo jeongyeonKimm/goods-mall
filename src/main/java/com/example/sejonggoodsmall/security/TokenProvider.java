@@ -3,6 +3,7 @@ package com.example.sejonggoodsmall.security;
 import com.example.sejonggoodsmall.model.Member;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class TokenProvider {
     public String create(Member member) {
         Date expiryDate = Date.from(
                 Instant.now()
-                        .plus(1, ChronoUnit.DAYS)
+                        .plus(60, ChronoUnit.SECONDS)
         );
 
         return Jwts.builder()
@@ -38,11 +39,19 @@ public class TokenProvider {
     }
 
     public String validateAndGetUserId(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            e.printStackTrace();
+            return e.getClaims().getSubject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return claims.getSubject();
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
+
 }

@@ -38,6 +38,8 @@ public class Member extends BaseEntity {
     private MemberStatus status;
 
     private int authNumber;
+    private String accessToken;
+    private String refreshToken;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
@@ -48,5 +50,9 @@ public class Member extends BaseEntity {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }
