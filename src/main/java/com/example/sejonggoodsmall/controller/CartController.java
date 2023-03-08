@@ -102,6 +102,7 @@ public class CartController {
                     CartDTO cartDTO = CartDTO.of(cart);
                     cartDTO.setTitle(cart.getItem().getTitle());
                     cartDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+                    cartDTO.setSeller(cart.getItem().getSeller().getName());
                     cartDTOList.add(cartDTO);
                 }
 
@@ -131,6 +132,7 @@ public class CartController {
             CartDTO responseDTO = CartDTO.of(updatedCartItem);
             responseDTO.setTitle(cart.getItem().getTitle());
             responseDTO.setRepImage(ItemImageDTO.of(cart.getItem().getItemImages().get(0)));
+            responseDTO.setSeller(cart.getItem().getSeller().getName());
 
             return ResponseEntity
                     .ok()

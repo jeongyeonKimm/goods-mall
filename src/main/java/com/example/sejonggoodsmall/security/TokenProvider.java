@@ -26,7 +26,7 @@ public class TokenProvider {
     public String create(Member member) {
         Date expiryDate = Date.from(
                 Instant.now()
-                        .plus(60, ChronoUnit.SECONDS)
+                        .plus(14, ChronoUnit.DAYS)
         );
 
         return Jwts.builder()
