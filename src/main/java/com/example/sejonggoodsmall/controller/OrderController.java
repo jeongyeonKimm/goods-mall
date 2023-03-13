@@ -37,6 +37,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
+                        .deliveryFee(orderItem.getItem().getDeliveryFee())
                         .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
@@ -79,6 +80,7 @@ public class OrderController {
                         .quantity(orderItem.getCount())
                         .size(orderItem.getSize())
                         .color(orderItem.getColor())
+                        .deliveryFee(orderItem.getItem().getDeliveryFee())
                         .seller(orderItem.getItem().getSeller())
                         .build();
                 orderItemDTOS.add(orderItemDTO);
@@ -118,6 +120,7 @@ public class OrderController {
                     OrderItemDTO orderItemDTO = OrderItemDTO.of(oi);
                     orderItemDTO.setItemId(oi.getItem().getId());
                     orderItemDTO.setSeller(oi.getItem().getSeller());
+                    orderItemDTO.setQuantity(oi.getCount());
                     dtos.add(orderItemDTO);
                 }
 

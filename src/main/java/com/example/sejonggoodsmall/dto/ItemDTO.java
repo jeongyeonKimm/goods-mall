@@ -46,6 +46,7 @@ public class ItemDTO {
     private int scrapCount;
     private int cartItemCount;
     private boolean isScraped;
+    private int deliveryFee;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
