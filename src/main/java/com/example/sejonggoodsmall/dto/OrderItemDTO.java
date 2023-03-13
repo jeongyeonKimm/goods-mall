@@ -20,6 +20,7 @@ public class OrderItemDTO {
     private String size;
     private int quantity;
     private int price;
+    private int deliveryFee;
     private Seller seller;
 
     private static ModelMapper modelMapper = new ModelMapper();

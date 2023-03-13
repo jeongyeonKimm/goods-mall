@@ -42,6 +42,8 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
+    private int deliveryFee;
+
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
