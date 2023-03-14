@@ -63,6 +63,10 @@ public class Order extends BaseEntity {
         this.status = status;
     }
 
+    public void setDeliveryRequest(String deliveryRequest) {
+        this.deliveryRequest = deliveryRequest;
+    }
+
     // == 생성 메서드 == //
     public static Order createOrder(Member member, List<OrderItem> orderItems, Delivery delivery) {
         Order order = new Order();

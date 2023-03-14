@@ -131,6 +131,7 @@ public class OrderController {
                         .address(order.getDelivery().getAddress())
                         .createdAt(order.getCreatedAt())
                         .orderMethod(order.getOrderMethod())
+                        .deliveryRequest(order.getDeliveryRequest())
                         .status(order.getStatus())
                         .orderItems(dtos)
                         .build();
