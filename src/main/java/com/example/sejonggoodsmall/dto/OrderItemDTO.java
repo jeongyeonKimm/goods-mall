@@ -2,6 +2,7 @@ package com.example.sejonggoodsmall.dto;
 
 import com.example.sejonggoodsmall.model.Order;
 import com.example.sejonggoodsmall.model.OrderItem;
+import com.example.sejonggoodsmall.model.OrderStatus;
 import com.example.sejonggoodsmall.model.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class OrderItemDTO {
     private int price;
     private int deliveryFee;
     private Seller seller;
+    private OrderStatus orderStatus;
 
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -31,5 +33,9 @@ public class OrderItemDTO {
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
