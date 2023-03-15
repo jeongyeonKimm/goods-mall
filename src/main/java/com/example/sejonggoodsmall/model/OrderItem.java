@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.sejonggoodsmall.model.OrderStatus.ORDER;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -41,9 +42,16 @@ public class OrderItem {
     private String color;
     private String size;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     // == 연관관계 메서드 == //
     public void addOrder(Order order) {
         this.order = order;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     // == 생성 메서드 == //
@@ -57,6 +65,7 @@ public class OrderItem {
             orderItem.setCount(oi.getQuantity());
             orderItem.setColor(oi.getColor());
             orderItem.setSize(oi.getSize());
+            orderItem.setStatus(ORDER);
             orderItems.add(orderItem);
         }
 
@@ -70,6 +79,7 @@ public class OrderItem {
         orderItem.setCount(cart.getQuantity());
         orderItem.setColor(cart.getColor());
         orderItem.setSize(cart.getSize());
+        orderItem.setStatus(ORDER);
 
         return orderItem;
     }

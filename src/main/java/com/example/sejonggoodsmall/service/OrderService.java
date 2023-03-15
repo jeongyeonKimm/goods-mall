@@ -21,7 +21,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
-    private final OrderItemRepository orderItemRepository;
 
     @Transactional
     public Order order(Long itemId, OrderDTO orderDTO, Long memberId) {

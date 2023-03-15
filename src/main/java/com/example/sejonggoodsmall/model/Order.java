@@ -36,9 +36,6 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "DELIVERY_ID")
     private Delivery delivery;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
     // == 연관관계 메서드 == //
     public void setMember(Member member) {
         this.member = member;
@@ -59,10 +56,6 @@ public class Order extends BaseEntity {
         this.orderMethod = orderMethod;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
     public void setDeliveryRequest(String deliveryRequest) {
         this.deliveryRequest = deliveryRequest;
     }
@@ -74,7 +67,6 @@ public class Order extends BaseEntity {
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
-        order.setStatus(OrderStatus.ORDER);
         order.setDelivery(delivery);
 
         return order;
