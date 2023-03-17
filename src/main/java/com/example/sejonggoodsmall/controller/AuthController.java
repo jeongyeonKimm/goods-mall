@@ -7,8 +7,8 @@ import com.example.sejonggoodsmall.service.MailService;
 import com.example.sejonggoodsmall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -191,6 +191,22 @@ public class AuthController {
         TokenCheckDTO responseDTO = TokenCheckDTO.builder()
                 .memberId(member.getId())
                 .build();
+
+        return ResponseEntity
+                .ok()
+                .body(responseDTO);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteMember(@AuthenticationPrincipal Long memberId) {
+        Member member = memberService.findById(memberId);
+
+        MemberDTO responseDTO = MemberDTO.builder()
+                .id(memberId)
+                .email(member.getEmail())
+                .build();
+
+        memberService.delete(member);
 
         return ResponseEntity
                 .ok()

@@ -79,4 +79,9 @@ public class MemberService {
     public Member findByToken(String token) {
         return memberRepository.findByAccessToken(token);
     }
+
+    @Transactional
+    public void delete(Member member) {
+        memberRepository.delete(member);
+    }
 }
