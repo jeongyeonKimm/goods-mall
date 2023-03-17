@@ -199,17 +199,28 @@ public class AuthController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteMember(@AuthenticationPrincipal Long memberId) {
-        Member member = memberService.findById(memberId);
+        try {
+            Member member = memberService.findById(memberId);
+            if (member == null) {
+                throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+            }
 
-        MemberDTO responseDTO = MemberDTO.builder()
-                .id(memberId)
-                .email(member.getEmail())
-                .build();
+            MemberDTO responseDTO = MemberDTO.builder()
+                    .id(memberId)
+                    .email(member.getEmail())
+                    .build();
 
-        memberService.delete(member);
+            memberService.delete(member);
 
-        return ResponseEntity
-                .ok()
-                .body(responseDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+        } catch (Exception e) {
+            String error = e.getMessage();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(error);
+        }
     }
 }
