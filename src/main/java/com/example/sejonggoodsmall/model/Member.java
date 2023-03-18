@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
     private int authNumber;
     private String accessToken;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
     public void updateAuthNumber(int authNumber) {

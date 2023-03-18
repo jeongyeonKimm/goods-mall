@@ -124,6 +124,7 @@ public class OrderController {
                     orderItemDTO.setSeller(oi.getItem().getSeller());
                     orderItemDTO.setQuantity(oi.getCount());
                     orderItemDTO.setOrderStatus(oi.getStatus());
+                    orderItemDTO.setDeliveryFee(oi.getItem().getDeliveryFee());
                     dtos.add(orderItemDTO);
                 }
 
