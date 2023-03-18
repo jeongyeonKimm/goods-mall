@@ -21,6 +21,7 @@ public class SellerDTO {
     private String bank;
     private String account;
     private Method method;
+    private String sns;
 
     private static ModelMapper modelMapper = new ModelMapper();
 

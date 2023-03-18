@@ -30,6 +30,7 @@ public class Seller extends BaseEntity{
     private String accountHolder;
     private String bank;
     private String account;
+    private String sns;
 
     @Enumerated(EnumType.STRING)
     private Method method;
